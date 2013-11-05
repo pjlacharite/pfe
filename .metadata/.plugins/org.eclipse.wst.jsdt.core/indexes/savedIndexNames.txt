@@ -1,6 +1,0 @@
-INDEX VERSION 1.122+/home/pjlacharite/projects/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes
-4279401137.index
-1751053441.index
-3962410970.index
-1472955271.index
-719916282.index
