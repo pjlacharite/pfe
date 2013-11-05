@@ -1,0 +1,4 @@
+INDEX VERSION 1.126+/home/pjlacharite/projects/.metadata/.plugins/org.eclipse.jdt.core
+3676046968.index
+4279401137.index
+3387780216.index
