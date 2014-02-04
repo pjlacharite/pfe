@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.pfe.MainMenuActivity"
+            android:name="view.MainMenuActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.pfe.SerieDetailsActivity"
+            android:name="view.SerieDetailsActivity"
             android:label="@string/title_activity_serie_details" >
         </activity>
     </application>

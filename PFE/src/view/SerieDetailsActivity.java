@@ -1,4 +1,6 @@
-package com.example.pfe;
+package view;
+
+import com.example.pfe.R;
 
 import android.os.Bundle;
 import android.app.Activity;

@@ -1,7 +1,9 @@
-package com.example.pfe;
+package view;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.example.pfe.R;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -30,7 +32,7 @@ public class MainMenuActivity extends Activity {
 	}
 	
 	public void SetupSeriesSpinner(){
-		Spinner seriesSpinner = (Spinner)findViewById(R.id.spinner1);
+		Spinner seriesSpinner = (Spinner)findViewById(R.id.mainSeriesSpinner);
 		List<String> seriesList = new ArrayList<String>();
 		seriesList.add("How I Met Your Mother");
 		seriesList.add("The Big Bang Theory");

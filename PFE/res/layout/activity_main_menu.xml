@@ -9,19 +9,19 @@
     tools:context=".MainMenuActivity" >
 
      <ImageView
-         android:id="@+id/imageView1"
+         android:id="@+id/mainImageView"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:layout_alignLeft="@+id/spinner1"
+         android:layout_alignLeft="@+id/mainSeriesSpinner"
          android:layout_alignParentTop="true"
          android:scaleType="center"
          android:src="@drawable/tv" />
 
      <Spinner
-         android:id="@+id/spinner1"
+         android:id="@+id/mainSeriesSpinner"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:layout_below="@+id/imageView1"
+         android:layout_below="@+id/mainImageView"
          android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

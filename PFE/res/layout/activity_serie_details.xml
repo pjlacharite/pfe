@@ -8,9 +8,61 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".SerieDetailsActivity" >
 
-    <TextView
+    <Spinner
+        android:id="@+id/seasonSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/seriesDetailTitle"
+        android:layout_marginTop="75dp" />
+
+    <Spinner
+        android:id="@+id/episodeSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/seasonSpinner" />
+
+    <TextView
+        android:id="@+id/broadcaster"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/episodeSpinner"
+        android:text="Broadcaster" />
+
+    <Spinner
+        android:id="@+id/broadcastSupportSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/broadcaster" />
+
+    <TextView
+        android:id="@+id/seriesDetailTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:text="Series Detail Title"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/seriesDetailDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/seasonSpinner"
+        android:layout_below="@+id/seriesDetailTitle"
+        android:layout_marginTop="15dp"
+        android:text="Series Detail Description" />
+
+    <TextView
+        android:id="@+id/broadcastSupportDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/broadcastSupportSpinner"
+        android:layout_below="@+id/broadcastSupportSpinner"
+        android:text="Results" />
 
 </RelativeLayout>
