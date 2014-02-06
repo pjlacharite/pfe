@@ -3,8 +3,7 @@ package view;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.pfe.R;
-
+import model.Serie;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +14,18 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.example.pfe.R;
+
+import controller.SerieController;
+
+/**
+ * Main Activity
+ * @author pjlacharite
+ *
+ */
 public class MainMenuActivity extends Activity {
+
+	private static final String KEY_SERIE = "serie";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,38 +40,20 @@ public class MainMenuActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main_menu, menu);
 		return true;
 	}
-	
+
 	public void SetupSeriesSpinner(){
 		Spinner seriesSpinner = (Spinner)findViewById(R.id.mainSeriesSpinner);
-		List<String> seriesList = new ArrayList<String>();
-		seriesList.add("How I Met Your Mother");
-		seriesList.add("The Big Bang Theory");
-		seriesList.add("Californication");
-		seriesList.add("How I Met Your Mother");
-		seriesList.add("The Big Bang Theory");
-		seriesList.add("Californication");
-		seriesList.add("How I Met Your Mother");
-		seriesList.add("The Big Bang Theory");
-		seriesList.add("Californication");
-		seriesList.add("How I Met Your Mother");
-		seriesList.add("The Big Bang Theory");
-		seriesList.add("Californication");
-		seriesList.add("How I Met Your Mother");
-		seriesList.add("The Big Bang Theory");
-		seriesList.add("Californication");
-		seriesList.add("How I Met Your Mother");
-		seriesList.add("The Big Bang Theory");
-		seriesList.add("Californication");
-		seriesList.add("How I Met Your Mother");
-		seriesList.add("The Big Bang Theory");
-		seriesList.add("Californication");
-		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, seriesList);
+		List<Serie> seriesList = new SerieController().fetchAllSeries();
+		List<String> seriesNameList = new ArrayList<String>();
+		for (Serie serie : seriesList){
+			seriesNameList.add(serie.getName());
+		}
+		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, seriesNameList);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);;
 		seriesSpinner.setAdapter(dataAdapter);
-		
+
 		seriesSpinner.setOnItemSelectedListener(new OnItemSelectedListener(){
 			private boolean firstPass = true;
-			
 			@Override
 			public void onItemSelected(AdapterView<?> parentView, View selectedItemView,
 					int position, long id) {
@@ -70,17 +62,16 @@ public class MainMenuActivity extends Activity {
 					return;
 				}
 				Intent intent = new Intent(MainMenuActivity.this, SerieDetailsActivity.class);
-				//intent.putExtra("series", seriesSpinner.getSelectedItem().toString());
+				System.out.println("Main Activity " + parentView.getSelectedItemId());
+				intent.putExtra(KEY_SERIE, parentView.getSelectedItemId());
 				MainMenuActivity.this.startActivity(intent);
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> parentView) {
-				// TODO Auto-generated method stub
-				
+				// Do nothing
 			}
-			
+
 		});
 	}
-
 }
