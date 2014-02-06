@@ -8,7 +8,6 @@ import java.util.Date;
  *
  */
 public class Episode {
-	private int seasonNumber;
 	private int episodeNumber;
 	private String episodeName;
 	private String episodeDescription;
@@ -24,29 +23,12 @@ public class Episode {
 	 * @param originalAirDate
 	 * @param originalViewers
 	 */
-	public Episode(int seasonNumber, int episodeNumber, String episodeName, String episodeDescription, Date originalAirDate, int originalViewers){
-		this.seasonNumber = seasonNumber;
+	public Episode(int episodeNumber, String episodeName, String episodeDescription, Date originalAirDate, int originalViewers){
 		this.episodeNumber = episodeNumber;
 		this.episodeName = episodeName;
 		this.episodeDescription = episodeDescription;
 		this.originalAirDate = originalAirDate;
 		this.originalViewers = originalViewers;
-	}
-
-	/**
-	 * Getter for seasonNumber
-	 * @return
-	 */
-	public int getSeasonNumber() {
-		return seasonNumber;
-	}
-
-	/**
-	 * Setter for seasonNumber
-	 * @param seasonNumber
-	 */
-	public void setSeasonNumber(int seasonNumber) {
-		this.seasonNumber = seasonNumber;
 	}
 
 	/**

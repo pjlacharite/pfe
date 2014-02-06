@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import model.Episode;
+import model.Season;
 import model.Serie;
 import android.app.Activity;
 import android.content.Intent;
@@ -53,17 +55,17 @@ public class SerieDetailsActivity extends Activity {
 			titleTextView.setText(serie.getName());
 			TextView descriptionTextView = (TextView)findViewById(R.id.seriesDetailDescription);
 			descriptionTextView.setText(serie.getDescription());
+			setupSeasonSpinner();
+			setupSupportsSpinner();
 		}
-		setupSeasonSpinner();
-		setupSupportsSpinner();
 	}
 
 	public void setupSeasonSpinner(){
 		Spinner seasonSpinner = (Spinner)findViewById(R.id.seasonSpinner);
 		List<String> seasonsList = new ArrayList<String>();
-		seasonsList.add("1");
-		seasonsList.add("2");
-		seasonsList.add("3");
+		for (Season season : serie.getSeasons()){
+			seasonsList.add(String.valueOf(season.getSeasonNumber()));
+		}
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, seasonsList);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);;
 		seasonSpinner.setAdapter(dataAdapter);
@@ -89,13 +91,11 @@ public class SerieDetailsActivity extends Activity {
 
 	public void setupEpisodeSpinner(int seasonNumber){
 		Spinner episodesSpinner = (Spinner)findViewById(R.id.episodeSpinner);
+		Season season = serie.getSeasons().get(seasonNumber);
 		List<String> episodesList = new ArrayList<String>();
-		episodesList.add("1");
-		episodesList.add("2");
-		episodesList.add("3");
-		episodesList.add("4");
-		episodesList.add("5");
-		episodesList.add("6");
+		for (Episode episode : season.getEpisodes()){
+			episodesList.add(episode.getEpisodeNumber() + " - " + episode.getEpisodeName());
+		}
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, episodesList);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);;
 		episodesSpinner.setAdapter(dataAdapter);
