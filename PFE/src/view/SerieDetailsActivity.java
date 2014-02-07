@@ -121,9 +121,9 @@ public class SerieDetailsActivity extends Activity {
 				}
 				Intent intent = new Intent(SerieDetailsActivity.this, EpisodeDetailsActivity.class);
 				System.out.println("Detail Activity " + parentView.getSelectedItemId());
-				intent.putExtra(KEY_EPISODE, parentView.getSelectedItemId());
-				intent.putExtra(KEY_SEASON, ((Spinner)findViewById(R.id.seasonSpinner)).getSelectedItemPosition());
-				intent.putExtra(KEY_SERIE, Integer.parseInt(serieId));
+				intent.putExtra(KEY_EPISODE, episodeMap.get(parentView.getSelectedItem()));
+				intent.putExtra(KEY_SEASON, currentSeason.getId());
+				intent.putExtra(KEY_SERIE, serieId);
 				SerieDetailsActivity.this.startActivity(intent);
 			}
 

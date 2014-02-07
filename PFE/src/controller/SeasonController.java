@@ -12,16 +12,26 @@ import model.Season;
  */
 public class SeasonController implements Controller{
 
-	private List<Season> lastFetchedSeasonList;
 	
+	/**
+	 * Fetches all seasons for a serieId
+	 * @param serieId
+	 * @return
+	 */
 	public List<Season> fetchAllSeasons(String serieId){
-		this.lastFetchedSeasonList = SeasonMock.mockSeasons();
-		return this.lastFetchedSeasonList;
+		List<Season> seasonList = SeasonMock.mockSeasons();
+		return seasonList;
 	}
 	
+	/**
+	 * Gets the season matching a serieId and seasonId
+	 * @param serieId
+	 * @param seasonId
+	 * @return
+	 */
 	public Season getSeason(String serieId, String seasonId){
-		this.lastFetchedSeasonList = fetchAllSeasons(serieId);
-		for (Season season: this.lastFetchedSeasonList){
+		List<Season> seasonList = fetchAllSeasons(serieId);
+		for (Season season: seasonList){
 			if (season.getId().equals(seasonId)){
 				return season;	
 			}		
