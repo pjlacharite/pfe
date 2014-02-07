@@ -14,7 +14,11 @@ public class EpisodeController implements Controller{
 	
 	public Episode getEpisode(String serieId, String seasonId, String episodeId){
 		List<Episode> episodeList = fetchAllEpisodes(serieId, seasonId);
-			return episodeList.get(0);
-		
+		for (Episode episode: episodeList){
+			if (episode.getId().equals(episodeId)){
+				return episode;
+			}
+		}
+		return null;
 	}
 }
