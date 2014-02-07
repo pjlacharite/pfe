@@ -3,7 +3,6 @@ package controller;
 import java.util.List;
 
 import mock.SeriesMock;
-import model.Season;
 import model.Serie;
 
 /**
@@ -25,46 +24,16 @@ public class SerieController implements Controller {
 	}
 	
 	/**
-	 * Getter for a serie using its index in the List
-	 * @param index
-	 * @return
-	 */
-	public Serie getSerie(int index){
-		if (index <= this.lastFetchedSerieList.size()-1){
-			return this.lastFetchedSerieList.get(index);
-		}
-		return null;
-	}
-	
-	/**
 	 * Getter for a serie using its name
 	 * @param name
 	 * @return
 	 */
-	public Serie getSerie(String name){
+	public Serie getSerie(String id){
 		for(Serie serie : lastFetchedSerieList){
-			if (serie.getName().equals(name)){
+			if (serie.getId().equals(id)){
 				return serie;
 			}
 		}
 		return null;
-	}
-	
-	/**
-	 * Adds a list of Season to a serie
-	 * @param index
-	 * @param seasons
-	 */
-	public void addSeasons(int index, List<Season> seasons){
-		this.lastFetchedSerieList.get(index).addSeasons(seasons);;
-	}
-	
-	/**
-	 * Adds a Season to a serie 
-	 * @param index
-	 * @param season
-	 */
-	public void addSeason(int index, Season season){
-		this.lastFetchedSerieList.get(index).addSeason(season);
 	}
 }

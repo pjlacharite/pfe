@@ -9,6 +9,8 @@ import java.util.List;
  *
  */
 public class Season {
+
+	private String id;
 	private int seasonNumber;
 	private Date dvdReleaseDate;
 	private List<Episode> episodes;
@@ -19,7 +21,8 @@ public class Season {
 	 * @param dvdReleaseDate
 	 * @param episodes
 	 */
-	public Season(int seasonNumber, Date dvdReleaseDate, List<Episode> episodes){
+	public Season(String id, int seasonNumber, Date dvdReleaseDate, List<Episode> episodes){
+		this.id = id;
 		this.seasonNumber = seasonNumber;
 		this.dvdReleaseDate = dvdReleaseDate;
 		this.episodes = episodes;
@@ -30,7 +33,8 @@ public class Season {
 	 * @param seasonNumber
 	 * @param dvdReleaseDate
 	 */
-	public Season(int seasonNumber, Date dvdReleaseDate){
+	public Season(String id, int seasonNumber, Date dvdReleaseDate){
+		this.id = id;
 		this.seasonNumber = seasonNumber;
 		this.dvdReleaseDate = dvdReleaseDate;
 	}
@@ -39,8 +43,25 @@ public class Season {
 	 * Constructor for Season
 	 * @param seasonNumber
 	 */
-	public Season(int seasonNumber){
+	public Season(String id, int seasonNumber){
+		this.id = id;
 		this.seasonNumber = seasonNumber;
+	}
+
+	/**
+	 * Getter for id
+	 * @return
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * Setter for id
+	 * @param id
+	 */
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	/**

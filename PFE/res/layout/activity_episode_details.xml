@@ -9,8 +9,60 @@
     tools:context=".EpisodeDetailsActivity" >
 
     <TextView
+        android:id="@+id/episodeDetailTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        android:text="Episode Title"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/episodeDetailDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/episodeDetailTitle"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="14dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/episodeDetailOriginalAirDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/episodeDetailOriginalViewers"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="101dp"
+        android:text="Original Air Date" />
+
+    <TextView
+        android:id="@+id/episodeDetailOriginalAirDateValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/episodeDetailOriginalAirDate"
+        android:layout_alignBottom="@+id/episodeDetailOriginalAirDate"
+        android:layout_marginLeft="39dp"
+        android:layout_toRightOf="@+id/episodeDetailOriginalAirDate"
+        android:text="24/01/2014" />
+
+    <TextView
+        android:id="@+id/episodeDetailOriginalViewers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/episodeDetailDescription"
+        android:layout_below="@+id/episodeDetailOriginalAirDateValue"
+        android:layout_marginTop="32dp"
+        android:text="Original Viewers" />
+
+    <TextView
+        android:id="@+id/episodeDetailOriginalViewersValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/episodeDetailOriginalViewers"
+        android:layout_alignBottom="@+id/episodeDetailOriginalViewers"
+        android:layout_alignLeft="@+id/episodeDetailOriginalAirDateValue"
+        android:text="20301029" />
 
 </RelativeLayout>

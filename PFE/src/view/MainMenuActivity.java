@@ -1,7 +1,9 @@
 package view;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import model.Serie;
 import android.app.Activity;
@@ -16,6 +18,7 @@ import android.widget.Spinner;
 
 import com.example.pfe.R;
 
+import controller.ControllerDispatcher;
 import controller.SerieController;
 
 /**
@@ -26,6 +29,8 @@ import controller.SerieController;
 public class MainMenuActivity extends Activity {
 
 	private static final String KEY_SERIE = "serie";
+	private static final String CONTROLLER_SERIE = "SerieController";
+	private Map<String, String> seriesMap = new HashMap<String, String>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +48,12 @@ public class MainMenuActivity extends Activity {
 
 	public void SetupSeriesSpinner(){
 		Spinner seriesSpinner = (Spinner)findViewById(R.id.mainSeriesSpinner);
-		List<Serie> seriesList = new SerieController().fetchAllSeries();
+		ControllerDispatcher dispatcher = ControllerDispatcher.getDispatcher();
+		SerieController serieController = (SerieController)dispatcher.getController(CONTROLLER_SERIE);
+		List<Serie> seriesList = serieController.fetchAllSeries();
 		List<String> seriesNameList = new ArrayList<String>();
 		for (Serie serie : seriesList){
+			seriesMap.put(serie.getName(), serie.getId());
 			seriesNameList.add(serie.getName());
 		}
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, seriesNameList);
@@ -63,7 +71,7 @@ public class MainMenuActivity extends Activity {
 				}
 				Intent intent = new Intent(MainMenuActivity.this, SerieDetailsActivity.class);
 				System.out.println("Main Activity " + parentView.getSelectedItemId());
-				intent.putExtra(KEY_SERIE, parentView.getSelectedItemId());
+				intent.putExtra(KEY_SERIE, seriesMap.get(String.valueOf(parentView.getSelectedItem())));
 				MainMenuActivity.this.startActivity(intent);
 			}
 

@@ -9,6 +9,8 @@ import java.util.List;
  *
  */
 public class Serie {
+	
+	private String id;
 	private List<Season> seasons;
 	private String name;
 	private String description;
@@ -19,7 +21,8 @@ public class Serie {
 	 * @param name
 	 * @param description
 	 */
-	public Serie(List<Season> seasons, String name, String description){
+	public Serie(String id, List<Season> seasons, String name, String description){
+		this.id = id;
 		this.seasons = seasons;
 		this.name = name;
 		this.description = description;
@@ -30,10 +33,27 @@ public class Serie {
 	 * @param name
 	 * @param description
 	 */
-	public Serie(String name, String description){
+	public Serie(String id, String name, String description){
+		this.id = id;
 		this.seasons = new ArrayList<Season>();
 		this.name = name;
 		this.description = description;
+	}
+
+	/**
+	 * Getter for id
+	 * @return
+	 */
+	public String getId() {
+		return id;
+	}
+	
+	/**
+	 * Setter for id
+	 * @param id
+	 */
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	/**

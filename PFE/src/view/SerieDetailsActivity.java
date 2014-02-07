@@ -2,7 +2,9 @@ package view;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import model.Episode;
 import model.Season;
@@ -10,7 +12,6 @@ import model.Serie;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.example.pfe.R;
 
 import controller.ControllerDispatcher;
+import controller.SeasonController;
 import controller.SerieController;
 
 /**
@@ -31,13 +33,18 @@ import controller.SerieController;
 public class SerieDetailsActivity extends Activity {
 
 	private static final String KEY_SERIE = "serie";
+	private static final String KEY_SEASON = "season";
 	private static final String KEY_EPISODE = "episode";
 	private static final String CONTROLLER_SERIE = "SerieController";
+	private static final String CONTROLLER_SEASON = "SeasonController";
 	private static final int TV = 0;
 	private static final int STREAM = 1;
 	private static final int DVD = 2;
 	private String serieId;
-	private Serie serie;
+	private Serie currentSerie;
+	private Season currentSeason;
+	private Map<String, String> seasonMap = new HashMap<String, String>();
+	private Map<String, String> episodeMap = new HashMap<String, String>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +54,12 @@ public class SerieDetailsActivity extends Activity {
 		System.out.println("SerieDetail " + serieId);
 		ControllerDispatcher dispatcher = ControllerDispatcher.getDispatcher();
 		SerieController serieController = (SerieController)dispatcher.getController(CONTROLLER_SERIE);
-		List<Serie> series = serieController.fetchAllSeries();
-		Log.e("lol", String.valueOf(series.size()));
-		serie = serieController.getSerie(Integer.parseInt(serieId));
-		if (serie != null){
+		currentSerie = serieController.getSerie(serieId);
+		if (currentSerie != null){
 			TextView titleTextView = (TextView)findViewById(R.id.seriesDetailTitle);
-			titleTextView.setText(serie.getName());
+			titleTextView.setText(currentSerie.getName());
 			TextView descriptionTextView = (TextView)findViewById(R.id.seriesDetailDescription);
-			descriptionTextView.setText(serie.getDescription());
+			descriptionTextView.setText(currentSerie.getDescription());
 			setupSeasonSpinner();
 			setupSupportsSpinner();
 		}
@@ -63,7 +68,8 @@ public class SerieDetailsActivity extends Activity {
 	public void setupSeasonSpinner(){
 		Spinner seasonSpinner = (Spinner)findViewById(R.id.seasonSpinner);
 		List<String> seasonsList = new ArrayList<String>();
-		for (Season season : serie.getSeasons()){
+		for (Season season : currentSerie.getSeasons()){
+			seasonMap.put(String.valueOf(season.getSeasonNumber()), season.getId());
 			seasonsList.add(String.valueOf(season.getSeasonNumber()));
 		}
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, seasonsList);
@@ -79,7 +85,11 @@ public class SerieDetailsActivity extends Activity {
 					firstPass = false;
 					return;
 				}
-				setupEpisodeSpinner(parentView.getSelectedItemPosition());
+				ControllerDispatcher dispatcher = ControllerDispatcher.getDispatcher();
+				SeasonController seasonController = (SeasonController)dispatcher.getController(CONTROLLER_SEASON);
+				
+				currentSeason = seasonController.getSeason(serieId, seasonMap.get(parentView.getSelectedItem()));
+				setupEpisodeSpinner();
 			}
 
 			@Override
@@ -89,12 +99,12 @@ public class SerieDetailsActivity extends Activity {
 		});
 	}
 
-	public void setupEpisodeSpinner(int seasonNumber){
+	public void setupEpisodeSpinner(){
 		Spinner episodesSpinner = (Spinner)findViewById(R.id.episodeSpinner);
-		Season season = serie.getSeasons().get(seasonNumber);
 		List<String> episodesList = new ArrayList<String>();
-		for (Episode episode : season.getEpisodes()){
-			episodesList.add(episode.getEpisodeNumber() + " - " + episode.getEpisodeName());
+		for (Episode episode : currentSeason.getEpisodes()){
+			episodeMap.put(String.valueOf(episode.getEpisodeNumber()), episode.getId());
+			episodesList.add(String.valueOf(episode.getEpisodeNumber()));
 		}
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, episodesList);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);;
@@ -112,6 +122,8 @@ public class SerieDetailsActivity extends Activity {
 				Intent intent = new Intent(SerieDetailsActivity.this, EpisodeDetailsActivity.class);
 				System.out.println("Detail Activity " + parentView.getSelectedItemId());
 				intent.putExtra(KEY_EPISODE, parentView.getSelectedItemId());
+				intent.putExtra(KEY_SEASON, ((Spinner)findViewById(R.id.seasonSpinner)).getSelectedItemPosition());
+				intent.putExtra(KEY_SERIE, Integer.parseInt(serieId));
 				SerieDetailsActivity.this.startActivity(intent);
 			}
 
