@@ -52,6 +52,7 @@ public class MainMenuActivity extends Activity {
 		SerieController serieController = (SerieController)dispatcher.getController(CONTROLLER_SERIE);
 		List<Serie> seriesList = serieController.fetchAllSeries();
 		List<String> seriesNameList = new ArrayList<String>();
+		seriesNameList.add("Pick a serie");
 		for (Serie serie : seriesList){
 			seriesMap.put(serie.getName(), serie.getId());
 			seriesNameList.add(serie.getName());
@@ -68,11 +69,12 @@ public class MainMenuActivity extends Activity {
 				if (firstPass){
 					firstPass = false;
 					return;
+				}else if (!parentView.getSelectedItem().equals("Pick a serie")){
+					Intent intent = new Intent(MainMenuActivity.this, SerieDetailsActivity.class);
+					System.out.println("Main Activity " + parentView.getSelectedItemId());
+					intent.putExtra(KEY_SERIE, seriesMap.get(String.valueOf(parentView.getSelectedItem())));
+					MainMenuActivity.this.startActivity(intent);
 				}
-				Intent intent = new Intent(MainMenuActivity.this, SerieDetailsActivity.class);
-				System.out.println("Main Activity " + parentView.getSelectedItemId());
-				intent.putExtra(KEY_SERIE, seriesMap.get(String.valueOf(parentView.getSelectedItem())));
-				MainMenuActivity.this.startActivity(intent);
 			}
 
 			@Override
