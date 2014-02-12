@@ -11,20 +11,20 @@ import android.util.Log;
  *
  */
 public class PropertiesReader {
-	
-	/**
-	 * Reads a properties file
-	 * @param fileName
-	 * @return
-	 */
-	public Properties getProperties(String fileName){
-		Properties properties = new Properties();
-		try {
-			properties.load(PropertiesReader.class.getClassLoader().getResourceAsStream(fileName));
-			return properties;
-		} catch (IOException e) {
-			Log.e("PropertiesReader".toString(), e.getMessage());
-			return null;
-		}
-	}
+    
+    /**
+     * Reads a properties file
+     * @param fileName
+     * @return
+     */
+    public Properties getProperties(String fileName){
+        Properties properties = new Properties();
+        try {
+            properties.load(PropertiesReader.class.getClassLoader().getResourceAsStream(fileName));
+            return properties;
+        } catch (IOException e) {
+            Log.e("PropertiesReader".toString(), e.getMessage());
+            return null;
+        }
+    }
 }
