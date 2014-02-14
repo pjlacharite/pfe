@@ -7,15 +7,15 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpContext;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.util.EntityUtils;
 
-import android.os.AsyncTask;
 
+public class WebServiceConnector{
 
-public class WebServiceConnector extends AsyncTask<String, Void, String> {
-
-    private static final String WS_URL = "http://localhost:8080/WS/rest/";
+    private static final String WS_URL = "http://192.168.0.103/WS/rest/";
 
     /**
      * Invokes the hello test WS
@@ -26,26 +26,26 @@ public class WebServiceConnector extends AsyncTask<String, Void, String> {
      * @throws ClientProtocolException 
      */
     public String hello() {
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpContext localContext = new BasicHttpContext();
+        HttpParams httpParameters = new BasicHttpParams();
+        int timeoutConnection = 3000;
+        HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+        int timeoutSocket = 5000;
+        HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+        HttpClient httpClient = new DefaultHttpClient(httpParameters);
         HttpGet httpGet = new HttpGet(WS_URL + "hello");
+        httpGet.addHeader("accept", "application/xml");
         HttpResponse response = null;
+        String xml = "";
         try {
-            response = httpClient.execute(httpGet, localContext);
+            response = httpClient.execute(httpGet);
+            httpClient.getConnectionManager().shutdown();
+            xml = EntityUtils.toString(response.getEntity());
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return response.getEntity().toString();
-    }
-
-    @Override
-    protected String doInBackground(String... params) {
-        return hello();
-    }
-    
-    @Override
-    protected void onPostExecute(String result){
+        
+        return xml;
     }
 }
