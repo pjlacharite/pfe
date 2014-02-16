@@ -51,7 +51,7 @@ public class SerieController implements Controller {
 
         @Override
         protected Void doInBackground(String... params) {
-            String wsParam = new WebServiceConnector().hello();
+            String wsParam = new WebServiceConnector().invoke("hello", "text/xml");
             lastFetchedSerieList = readSerieList(wsParam);
             return null;
         }

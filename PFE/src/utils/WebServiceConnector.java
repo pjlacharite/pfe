@@ -15,7 +15,7 @@ import org.apache.http.util.EntityUtils;
 
 public class WebServiceConnector{
 
-    private static final String WS_URL = "http://192.168.0.103/WS/rest/";
+    private static final String WS_URL = "http://10.0.2.2:8080/WS/rest/";
 
     /**
      * Invokes the hello test WS
@@ -25,15 +25,15 @@ public class WebServiceConnector{
      * @throws IOException 
      * @throws ClientProtocolException 
      */
-    public String hello() {
+    public String invoke(String service, String mimeType) {
         HttpParams httpParameters = new BasicHttpParams();
         int timeoutConnection = 3000;
         HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
         int timeoutSocket = 5000;
         HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
         HttpClient httpClient = new DefaultHttpClient(httpParameters);
-        HttpGet httpGet = new HttpGet(WS_URL + "hello");
-        httpGet.addHeader("accept", "application/xml");
+        HttpGet httpGet = new HttpGet(WS_URL + "service");
+        httpGet.addHeader("accept", mimeType);
         HttpResponse response = null;
         String xml = "";
         try {
@@ -45,7 +45,7 @@ public class WebServiceConnector{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
         return xml;
     }
 }
