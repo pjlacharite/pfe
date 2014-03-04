@@ -21,7 +21,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/hk2-utils-2.2.0-b21.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/javax.annotation-api-1.2.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/javax.inject-2.2.0-b21.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/javax.servlet-api-3.0.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/javax.ws.rs-api-2.0.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jaxb-api-2.2.7.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jersey-client.jar"/>
