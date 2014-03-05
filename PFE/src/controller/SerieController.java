@@ -18,44 +18,43 @@ import android.util.Log;
  *
  */
 public class SerieController implements Controller {
-    
+
     private List<Serie> lastFetchedSerieList;
-    
+    private Serie lastFetchedSerie;
+
     /**
      * Updates the series list and returns it
      * @return
      */
-    public List<Serie> fetchAllSeries(){
+    public List<Serie> fetchSeriesName(){
         lastFetchedSerieList = null;
-        new webServiceTask().execute();
+        new FetchSeriesName().execute();
         while(lastFetchedSerieList == null){
             //Waiting for WS call to finish
         }
         return this.lastFetchedSerieList;
     }
-    
+
     /**
      * Getter for a serie using its name
      * @param name
      * @return
      */
-    public Serie getSerie(String id){
-        if (lastFetchedSerieList == null){
-            lastFetchedSerieList = fetchAllSeries();
+    public Serie fetchSerie(String id){
+        lastFetchedSerie = null;
+        new FetchSerie(id).execute();
+        while(lastFetchedSerie == null){
+          //Waiting for WS call to finish
         }
-        for(Serie serie : lastFetchedSerieList){
-            if (serie.getId().equals(id)){
-                return serie;
-            }
-        }
-        return null;
+        return lastFetchedSerie;
     }
 
-    private class webServiceTask extends AsyncTask<String, Void, Void>{
+    private class FetchSeriesName extends AsyncTask<String, Void, Void>{
 
+        
         @Override
         protected Void doInBackground(String... params) {
-            String wsParam = new WebServiceConnector().invoke("serieslistservice", "text/xml");
+            String wsParam = new WebServiceConnector().invoke("serieslistservice", "text/xml", null, null);
             lastFetchedSerieList = readSerieList(wsParam);
             return null;
         }
@@ -79,6 +78,37 @@ public class SerieController implements Controller {
                 //seriesList.addAll(carrier.getSeries());
             }
             return series;
+        }
+    }
+
+    private class FetchSerie extends AsyncTask<String, Void, Void>{
+
+        private String id;
+        private  FetchSerie(String id){
+            this.id = id;
+        }
+        
+        @Override
+        protected Void doInBackground(String... params) {
+            List<String> paramNames = new ArrayList<String>();
+            List<String> paramValues = new ArrayList<String>();
+            paramNames.add("serieId");
+            paramValues.add(this.id);
+            String wsParam = new WebServiceConnector().invoke("serieservice", "text/xml", paramNames, paramValues);
+            lastFetchedSerie = readSerie(wsParam);
+            return null;
+        }
+
+        private Serie readSerie(String wsParam){
+            Log.d("WS", wsParam);
+            Serializer serializer = new Persister();
+            Serie serie = null;
+            try {
+                 serie = serializer.read(Serie.class, wsParam);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return serie;
         }
 
     }

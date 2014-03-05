@@ -53,7 +53,7 @@ public class MainMenuActivity extends Activity {
         Spinner seriesSpinner = (Spinner)findViewById(R.id.mainSeriesSpinner);
         ControllerDispatcher dispatcher = ControllerDispatcher.getDispatcher();
         SerieController serieController = (SerieController)dispatcher.getController(CONTROLLER_SERIE);
-        List<Serie> seriesList = serieController.fetchAllSeries();
+        List<Serie> seriesList = serieController.fetchSeriesName();
         List<String> seriesNameList = new ArrayList<String>();
         seriesNameList.add("Pick a serie");
         for (Serie serie : seriesList){

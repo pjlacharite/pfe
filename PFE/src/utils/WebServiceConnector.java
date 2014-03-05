@@ -1,6 +1,7 @@
 package utils;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -25,14 +26,26 @@ public class WebServiceConnector{
      * @throws IOException 
      * @throws ClientProtocolException 
      */
-    public String invoke(String service, String mimeType) {
+    public String invoke(String service, String mimeType, List<String> parametersName, List<String> parametersValue) {
         HttpParams httpParameters = new BasicHttpParams();
         int timeoutConnection = 3000;
         HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
         int timeoutSocket = 5000;
         HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
         HttpClient httpClient = new DefaultHttpClient(httpParameters);
-        HttpGet httpGet = new HttpGet(WS_URL + service);
+        String serviceCall = WS_URL + service;
+        if (parametersValue != null){
+            for (int i = 0; i < parametersName.size(); i++){
+                if (i == 0){
+                    serviceCall += "?";
+                }else{
+                    serviceCall += "&";
+                }
+                serviceCall += parametersName.get(i) + "=" + parametersValue.get(i);
+            }
+        }
+        HttpGet httpGet = new HttpGet(serviceCall);
+
         httpGet.addHeader("accept", mimeType);
         HttpResponse response = null;
         String mime = "";

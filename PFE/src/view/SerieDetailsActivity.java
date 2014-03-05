@@ -54,7 +54,7 @@ public class SerieDetailsActivity extends Activity {
         System.out.println("SerieDetail " + serieId);
         ControllerDispatcher dispatcher = ControllerDispatcher.getDispatcher();
         SerieController serieController = (SerieController)dispatcher.getController(CONTROLLER_SERIE);
-        currentSerie = serieController.getSerie(serieId);
+        currentSerie = serieController.fetchSerie(serieId);
         Spinner episodeSpinner = (Spinner)findViewById(R.id.episodeSpinner);
         episodeSpinner.setVisibility(View.INVISIBLE);
         if (currentSerie != null){
