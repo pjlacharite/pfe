@@ -16,6 +16,17 @@ public class SeasonMock {
         seasonsList.add(season1);
         seasonsList.add(season2);
         seasonsList.add(season3);
+        return seasonsList;
+    }
+
+    public static List<Season> lazyMockSeasons(){
+        List<Season> seasonsList = new ArrayList<Season>();
+        Season season1 = new Season("1", 1, new Date(), null);
+        Season season2 = new Season("2", 2, new Date(), null);
+        Season season3 = new Season("3", 3, new Date(), null);
+        seasonsList.add(season1);
+        seasonsList.add(season2);
+        seasonsList.add(season3);
         
         return seasonsList;
     }

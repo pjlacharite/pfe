@@ -42,7 +42,8 @@ public class SerieController implements Controller {
      */
     public Serie fetchSerie(String id){
         lastFetchedSerie = null;
-        new FetchSerie(id).execute();
+        Log.d("WTF", id);
+        new FetchSerie().execute(id);
         while(lastFetchedSerie == null){
           //Waiting for WS call to finish
         }
@@ -83,17 +84,12 @@ public class SerieController implements Controller {
 
     private class FetchSerie extends AsyncTask<String, Void, Void>{
 
-        private String id;
-        private  FetchSerie(String id){
-            this.id = id;
-        }
-        
         @Override
         protected Void doInBackground(String... params) {
             List<String> paramNames = new ArrayList<String>();
             List<String> paramValues = new ArrayList<String>();
             paramNames.add("serieId");
-            paramValues.add(this.id);
+            paramValues.add(params[0]);
             String wsParam = new WebServiceConnector().invoke("serieservice", "text/xml", paramNames, paramValues);
             lastFetchedSerie = readSerie(wsParam);
             return null;

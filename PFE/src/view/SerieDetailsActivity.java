@@ -71,9 +71,10 @@ public class SerieDetailsActivity extends Activity {
         Spinner seasonSpinner = (Spinner)findViewById(R.id.seasonSpinner);
         List<String> seasonsList = new ArrayList<String>();
         seasonsList.add("Pick a Season");
-        for (Season season : currentSerie.getSeasons()){
-            seasonMap.put(String.valueOf(season.getSeasonNumber()), season.getId());
-            seasonsList.add(String.valueOf(season.getSeasonNumber()));
+        for (int i = 0; i < currentSerie.getSeasonCount(); i++){
+            String seasonNumber = String.valueOf(i);
+            seasonMap.put(seasonNumber, seasonNumber);
+            seasonsList.add(seasonNumber);
         }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, seasonsList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);;

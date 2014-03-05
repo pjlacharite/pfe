@@ -1,10 +1,6 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
 /**
@@ -16,22 +12,25 @@ import org.simpleframework.xml.Root;
 public class Serie {
     @Attribute
     private String id;
-    @ElementList(name="seasons")
-    private List<Season> seasons;
+    @Attribute
+    private int seasonCount;
     @Attribute
     private String name;
     @Attribute
     private String description;
 
+    public Serie(){
+        //Empty constructor for simplexml
+    }
     /**
      * Constructor for Serie
      * @param seasons
      * @param name
      * @param description
      */
-    public Serie(String id, List<Season> seasons, String name, String description){
+    public Serie(String id, int seasonCount, String name, String description){
         this.id = id;
-        this.seasons = seasons;
+        this.seasonCount = seasonCount;
         this.name = name;
         this.description = description;
     }
@@ -41,6 +40,7 @@ public class Serie {
      * @param name
      */
     public Serie(String id, String name){
+        this.id = id;
         this.name = name;
     }
 
@@ -51,7 +51,7 @@ public class Serie {
      */
     public Serie(String id, String name, String description){
         this.id = id;
-        this.seasons = new ArrayList<Season>();
+        this.seasonCount = 0;
         this.name = name;
         this.description = description;
     }
@@ -73,35 +73,19 @@ public class Serie {
     }
 
     /**
-     * Getter for seasons
-     * @return
-     */
-    public List<Season> getSeasons() {
-        return seasons;
-    }
-
-    /**
-     * Adds a List of seasons
-     * @param seasons
-     */
-    public void addSeasons(List<Season> seasons) {
-        this.seasons.addAll(seasons);
-    }
-
-    /**
-     * Adds a season
-     * @param season
-     */
-    public void addSeason(Season season){
-        this.seasons.add(season);
-    }
-    
-    /**
      * Getter for name
      * @return
      */
     public String getName() {
         return name;
+    }
+
+    public int getSeasonCount() {
+        return seasonCount;
+    }
+
+    public void setSeasonCount(int seasonCount) {
+        this.seasonCount = seasonCount;
     }
 
     /**
@@ -120,7 +104,7 @@ public class Serie {
         return description;
     }
 
-    /**
+    /**Season season : currentSerie.getSeasons()
      * Setter for description
      * @param description
      */

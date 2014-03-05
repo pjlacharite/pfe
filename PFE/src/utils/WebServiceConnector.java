@@ -13,6 +13,8 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
+import android.util.Log;
+
 
 public class WebServiceConnector{
 
@@ -44,6 +46,7 @@ public class WebServiceConnector{
                 serviceCall += parametersName.get(i) + "=" + parametersValue.get(i);
             }
         }
+        Log.d("WS", serviceCall);
         HttpGet httpGet = new HttpGet(serviceCall);
 
         httpGet.addHeader("accept", mimeType);
