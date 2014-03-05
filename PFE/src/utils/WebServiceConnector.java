@@ -32,20 +32,20 @@ public class WebServiceConnector{
         int timeoutSocket = 5000;
         HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
         HttpClient httpClient = new DefaultHttpClient(httpParameters);
-        HttpGet httpGet = new HttpGet(WS_URL + "service");
+        HttpGet httpGet = new HttpGet(WS_URL + service);
         httpGet.addHeader("accept", mimeType);
         HttpResponse response = null;
-        String xml = "";
+        String mime = "";
         try {
             response = httpClient.execute(httpGet);
             httpClient.getConnectionManager().shutdown();
-            xml = EntityUtils.toString(response.getEntity());
+            mime = EntityUtils.toString(response.getEntity());
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return xml;
+        return mime;
     }
 }

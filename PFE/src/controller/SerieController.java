@@ -3,10 +3,14 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import utils.WebServiceConnector;
-import mock.SeriesMock;
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
+
 import model.Serie;
+import model.SerieList;
+import utils.WebServiceConnector;
 import android.os.AsyncTask;
+import android.util.Log;
 
 /**
  * Controller to retrieve information related to series
@@ -51,16 +55,30 @@ public class SerieController implements Controller {
 
         @Override
         protected Void doInBackground(String... params) {
-            String wsParam = new WebServiceConnector().invoke("hello", "text/xml");
+            String wsParam = new WebServiceConnector().invoke("serieslistservice", "text/xml");
             lastFetchedSerieList = readSerieList(wsParam);
             return null;
         }
 
         private List<Serie> readSerieList(String wsParam){
-            List<Serie> seriesList = new ArrayList<Serie>();
-            seriesList.addAll(SeriesMock.mockSeries());
-            seriesList.add(new Serie("4", wsParam, wsParam));
-            return seriesList;
+            Log.d("WS", wsParam);
+            List<Serie> series = new ArrayList<Serie>();
+            Serializer serializer = new Persister();
+            SerieList serieList = null;
+            try {
+                serieList = serializer.read(SerieList.class, wsParam);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (serieList != null){
+                int i = 0;
+                for (String serieName : serieList.getSeriesName()){
+                    series.add(new Serie(String.valueOf(i), serieName));
+                    i++;
+                }
+                //seriesList.addAll(carrier.getSeries());
+            }
+            return series;
         }
 
     }

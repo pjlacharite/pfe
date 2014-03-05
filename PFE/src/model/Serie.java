@@ -3,18 +3,26 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
+
 /**
  * Class representing a Serie
  * @author pjlacharite
  *
  */
+@Root
 public class Serie {
-    
+    @Attribute
     private String id;
+    @ElementList(name="seasons")
     private List<Season> seasons;
+    @Attribute
     private String name;
+    @Attribute
     private String description;
-    
+
     /**
      * Constructor for Serie
      * @param seasons
@@ -27,7 +35,15 @@ public class Serie {
         this.name = name;
         this.description = description;
     }
-    
+
+    /**
+     * Lazy constructor for Serie
+     * @param name
+     */
+    public Serie(String id, String name){
+        this.name = name;
+    }
+
     /**
      * Constructor for Serie
      * @param name
@@ -47,7 +63,7 @@ public class Serie {
     public String getId() {
         return id;
     }
-    
+
     /**
      * Setter for id
      * @param id

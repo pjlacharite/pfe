@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
 /**
@@ -15,7 +16,7 @@ import org.simpleframework.xml.Root;
 public class Serie {
     @Attribute
     private String id;
-    @Attribute
+    @ElementList(name="seasons")
     private List<Season> seasons;
     @Attribute
     private String name;
@@ -33,6 +34,14 @@ public class Serie {
         this.seasons = seasons;
         this.name = name;
         this.description = description;
+    }
+
+    /**
+     * Lazy constructor for Serie
+     * @param name
+     */
+    public Serie(String id, String name){
+        this.name = name;
     }
 
     /**
