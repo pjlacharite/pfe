@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import model.Episode;
 import model.Season;
 import model.Serie;
 import android.app.Activity;
@@ -45,7 +44,7 @@ public class SerieDetailsActivity extends Activity {
     private Season currentSeason;
     private Map<String, String> seasonMap = new HashMap<String, String>();
     private Map<String, String> episodeMap = new HashMap<String, String>();
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +70,7 @@ public class SerieDetailsActivity extends Activity {
         Spinner seasonSpinner = (Spinner)findViewById(R.id.seasonSpinner);
         List<String> seasonsList = new ArrayList<String>();
         seasonsList.add("Pick a Season");
-        for (int i = 0; i < currentSerie.getSeasonCount(); i++){
+        for (int i = 1; i < currentSerie.getSeasonCount()+1; i++){
             String seasonNumber = String.valueOf(i);
             seasonMap.put(seasonNumber, seasonNumber);
             seasonsList.add(seasonNumber);
@@ -92,7 +91,7 @@ public class SerieDetailsActivity extends Activity {
                     ControllerDispatcher dispatcher = ControllerDispatcher.getDispatcher();
                     SeasonController seasonController = (SeasonController)dispatcher.getController(CONTROLLER_SEASON);
                     
-                    currentSeason = seasonController.getSeason(serieId, seasonMap.get(parentView.getSelectedItem()));
+                    currentSeason = seasonController.fetchSeason(serieId, seasonMap.get(parentView.getSelectedItem()));
                     setupEpisodeSpinner();
                 }
             }
@@ -109,9 +108,10 @@ public class SerieDetailsActivity extends Activity {
         episodesSpinner.setVisibility(View.VISIBLE);
         List<String> episodesList = new ArrayList<String>();
         episodesList.add("Pick an Episode");
-        for (Episode episode : currentSeason.getEpisodes()){
-            episodeMap.put(String.valueOf(episode.getEpisodeNumber()), episode.getId());
-            episodesList.add(String.valueOf(episode.getEpisodeNumber()));
+        for (int i = 1; i < currentSeason.getEpisodeCount() +1; i++){
+            String episodeNumber = String.valueOf(i);
+            episodeMap.put(episodeNumber, episodeNumber);
+            episodesList.add(episodeNumber);
         }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, episodesList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);;

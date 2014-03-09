@@ -30,9 +30,9 @@ public class WebServiceConnector{
      */
     public String invoke(String service, String mimeType, List<String> parametersName, List<String> parametersValue) {
         HttpParams httpParameters = new BasicHttpParams();
-        int timeoutConnection = 3000;
+        int timeoutConnection = 5000;
         HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
-        int timeoutSocket = 5000;
+        int timeoutSocket = 8000;
         HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
         HttpClient httpClient = new DefaultHttpClient(httpParameters);
         String serviceCall = WS_URL + service;

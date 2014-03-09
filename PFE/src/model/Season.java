@@ -1,31 +1,43 @@
 package model;
 
 import java.util.Date;
-import java.util.List;
+
+import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Root;
 
 /**
  * Class representing a Season
  * @author pjlacharite
  *
  */
+@Root
 public class Season {
-
+    @Attribute
     private String id;
+    @Attribute
     private int seasonNumber;
+    @Attribute
     private Date dvdReleaseDate;
-    private List<Episode> episodes;
-    
+    @Attribute
+    private int episodeCount;
+
+    /**
+     * Empty constructor for simpleXML
+     */
+    public Season(){
+        
+    }
     /**
      * Constructor for Season
      * @param seasonNumber
      * @param dvdReleaseDate
      * @param episodes
      */
-    public Season(String id, int seasonNumber, Date dvdReleaseDate, List<Episode> episodes){
+    public Season(String id, int seasonNumber, Date dvdReleaseDate, int episodeCount){
         this.id = id;
         this.seasonNumber = seasonNumber;
         this.dvdReleaseDate = dvdReleaseDate;
-        this.episodes = episodes;
+        this.setEpisodeCount(episodeCount);
     }
     
     /**
@@ -96,19 +108,11 @@ public class Season {
         this.dvdReleaseDate = dvdReleaseDate;
     }
 
-    /**
-     * Getter for episodes
-     * @return
-     */
-    public List<Episode> getEpisodes() {
-        return episodes;
+    public int getEpisodeCount() {
+        return episodeCount;
     }
 
-    /**
-     * Setter for episodes
-     * @param episodes
-     */
-    public void setEpisodes(List<Episode> episodes) {
-        this.episodes = episodes;
+    public void setEpisodeCount(int episodeCount) {
+        this.episodeCount = episodeCount;
     }
 }
