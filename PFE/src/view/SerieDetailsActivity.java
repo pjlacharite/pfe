@@ -1,7 +1,6 @@
 package view;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +37,6 @@ public class SerieDetailsActivity extends Activity {
     private static final String CONTROLLER_SEASON = "SeasonController";
     private static final int TV = 1;
     private static final int STREAM = 2;
-    private static final int DVD = 3;
     private String serieId;
     private Serie currentSerie;
     private Season currentSeason;
@@ -56,6 +54,10 @@ public class SerieDetailsActivity extends Activity {
         currentSerie = serieController.fetchSerie(serieId);
         Spinner episodeSpinner = (Spinner)findViewById(R.id.episodeSpinner);
         episodeSpinner.setVisibility(View.INVISIBLE);
+        TextView dvdReleaseTextView = (TextView)findViewById(R.id.releaseDateTextView);
+        dvdReleaseTextView.setVisibility(View.INVISIBLE);
+        TextView broadcastSupportTextView = (TextView)findViewById(R.id.broadcastSupportDetail);
+        broadcastSupportTextView.setVisibility(View.INVISIBLE);
         if (currentSerie != null){
             TextView titleTextView = (TextView)findViewById(R.id.seriesDetailTitle);
             titleTextView.setText(currentSerie.getName());
@@ -78,7 +80,7 @@ public class SerieDetailsActivity extends Activity {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, seasonsList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);;
         seasonSpinner.setAdapter(dataAdapter);
-        
+
         seasonSpinner.setOnItemSelectedListener(new OnItemSelectedListener(){
             private boolean firstPass = true;
             @Override
@@ -90,8 +92,12 @@ public class SerieDetailsActivity extends Activity {
                 }else if (!parentView.getSelectedItem().equals("Pick a Season")){
                     ControllerDispatcher dispatcher = ControllerDispatcher.getDispatcher();
                     SeasonController seasonController = (SeasonController)dispatcher.getController(CONTROLLER_SEASON);
-                    
                     currentSeason = seasonController.fetchSeason(serieId, seasonMap.get(parentView.getSelectedItem()));
+                    if (currentSeason.getDvdReleaseDate() != null){
+                        TextView dvdReleaseTextView = (TextView)findViewById(R.id.releaseDateTextView);
+                        dvdReleaseTextView.setText("Sortie DVD: " + currentSeason.getDvdReleaseDate().toString());
+                        dvdReleaseTextView.setVisibility(View.VISIBLE);
+                    }
                     setupEpisodeSpinner();
                 }
             }
@@ -149,7 +155,6 @@ public class SerieDetailsActivity extends Activity {
         broadcastSupportsList.add("Pick a Broadcasting Support");
         broadcastSupportsList.add("Television");
         broadcastSupportsList.add("Web Streaming");
-        broadcastSupportsList.add("DVD");
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, broadcastSupportsList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);;
         broadcastSupportSpinner.setAdapter(dataAdapter);
@@ -168,8 +173,10 @@ public class SerieDetailsActivity extends Activity {
                         System.out.println("Detail Activity " + parentView.getSelectedItemId());
                         intent.putExtra(KEY_SERIE, parentView.getSelectedItemId());
                         SerieDetailsActivity.this.startActivity(intent);
-                    }else{
-                        displayResults(parentView.getSelectedItemPosition());
+                    }else if (parentView.getSelectedItemPosition() == STREAM){
+                        TextView resultTextView = (TextView)findViewById(R.id.broadcastSupportDetail);
+                        resultTextView.setText("Netflix\nHBO");
+                        resultTextView.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -180,14 +187,5 @@ public class SerieDetailsActivity extends Activity {
             }
             
         });
-    }
-
-    public void displayResults(int support){
-        TextView resultTextView = (TextView)findViewById(R.id.broadcastSupportDetail);
-        if (support == DVD){
-            resultTextView.setText(new Date().toString());
-        }else if (support == STREAM){
-            resultTextView.setText("Netflix\nHBO");
-        }
     }
 }
