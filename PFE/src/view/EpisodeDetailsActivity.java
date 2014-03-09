@@ -34,7 +34,7 @@ public class EpisodeDetailsActivity extends Activity {
         String serieId = String.valueOf(getIntent().getExtras().get(KEY_SERIE));
         ControllerDispatcher dispatcher = ControllerDispatcher.getDispatcher();
         EpisodeController episodeController = (EpisodeController)dispatcher.getController(CONTROLLER_EPISODE);
-        currentEpisode= episodeController.getEpisode(serieId, seasonId, episodeId);
+        currentEpisode= episodeController.fetchEpisode(serieId, seasonId, episodeId);
         if (currentEpisode != null){
             TextView episodeTitleTextView = (TextView)findViewById(R.id.episodeDetailTitle);
             TextView episodeDescriptionTextView = (TextView)findViewById(R.id.episodeDetailDescription);

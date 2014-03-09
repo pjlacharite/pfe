@@ -2,20 +2,35 @@ package model;
 
 import java.util.Date;
 
+import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Root;
+
 /**
  * Class representing an episode
  * @author pjlacharite
  *
  */
+@Root
 public class Episode {
-
+    @Attribute
     private String id;
+    @Attribute
     private int episodeNumber;
+    @Attribute
     private String episodeName;
+    @Attribute
     private String episodeDescription;
+    @Attribute
     private Date originalAirDate;
+    @Attribute
     private int originalViewers;
-    
+
+    /**
+     * Empty constructor for simpleXML
+     */
+    public Episode(){
+        
+    }
     /**
      * Constructor for Episode
      * @param seasonNumber

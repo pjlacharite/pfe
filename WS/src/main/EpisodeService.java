@@ -8,23 +8,23 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import mock.SeasonMock;
-import model.Season;
+import mock.EpisodeMock;
+import model.Episode;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
-@Path("/seasonservice")
-public class SeasonService {
+@Path("/episodeservice")
+public class EpisodeService {
     // This method is called if XML is request
     @GET
     @Produces(MediaType.TEXT_XML)
-    public String getSerieXml(@QueryParam("serieId") String serieId, @QueryParam("seasonNumber") String seasonNumber) {
+    public String getSerieXml(@QueryParam("serieId") String serieId, @QueryParam("seasonNumber") String seasonNumber, @QueryParam("episodeNumber") String episodeNumber) {
         Serializer serializer = new Persister();
         StringWriter writer = new StringWriter();
         try {
-          Season season = SeasonMock.mockSeasons().get(Integer.parseInt(serieId));
-          serializer.write(season, writer);
+          Episode episode = EpisodeMock.mockEpisodes().get(Integer.parseInt(serieId));
+          serializer.write(episode, writer);
           System.out.println(writer.getBuffer());
         } catch (Exception e) {
           e.printStackTrace();
