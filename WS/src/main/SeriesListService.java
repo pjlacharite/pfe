@@ -1,5 +1,9 @@
 package main;
 import java.io.StringWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -14,6 +18,8 @@ import model.SerieList;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
+import persistence.DatabaseUtils;
+
 @Path("/serieslistservice")
 public class SeriesListService {
 
@@ -21,6 +27,23 @@ public class SeriesListService {
       @GET
       @Produces(MediaType.TEXT_XML)
       public String getSerieListXml() {
+          
+          /*THIS IS A REQUEST TEST*/
+          Connection connection = DatabaseUtils.getConnection();
+          try {
+              String sql = "SELECT testField FROM test";
+              PreparedStatement statement = connection.prepareStatement(sql);
+              ResultSet resultSet = statement.executeQuery();
+              System.out.println("Query somehow executed");
+              while (resultSet.next()){
+                  String id = resultSet.getString(1);
+                  System.out.println(id);
+              }
+          } catch (SQLException e) {
+              System.out.println(e.getLocalizedMessage());
+          }
+          
+
           Serializer serializer = new Persister();
           StringWriter writer = new StringWriter();
           SerieList serieList = new SerieList();
