@@ -3,10 +3,13 @@ package main;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import fetchers.Fetcher;
+import fetchers.FetcherFactory;
 import persistence.DatabaseUtils;
 
 
@@ -25,6 +28,11 @@ public class DatabaseInitializationServlet implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent arg0) {
+        createDatabaseTables();
+        populateDatabaseTables();
+    }
+
+    private void createDatabaseTables(){
         connection = DatabaseUtils.getConnection();
         Statement statement = null;
         try{
@@ -42,6 +50,13 @@ public class DatabaseInitializationServlet implements ServletContextListener {
             connection.close();
         } catch (Exception e){
           System.out.println(e.getLocalizedMessage());
+        }
+    }
+
+    private void populateDatabaseTables(){
+        List<Fetcher> fetchers = new FetcherFactory().getFetchers();
+        for (Fetcher fetcher: fetchers){
+            fetcher.fetch();
         }
     }
 
