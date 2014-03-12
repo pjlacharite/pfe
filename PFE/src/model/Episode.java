@@ -17,6 +17,8 @@ public class Episode {
     @Attribute
     private int episodeNumber;
     @Attribute
+    private int seasonNumber;
+    @Attribute
     private String episodeName;
     @Attribute
     private String episodeDescription;
@@ -143,5 +145,12 @@ public class Episode {
      */
     public void setOriginalViewers(int originalViewers) {
         this.originalViewers = originalViewers;
+    }
+
+    public int getSeasonNumber() {
+        return seasonNumber;
+    }
+    public void setSeasonNumber(int seasonNumber) {
+        this.seasonNumber = seasonNumber;
     }
 }

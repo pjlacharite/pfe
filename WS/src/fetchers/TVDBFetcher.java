@@ -1,7 +1,6 @@
 package fetchers;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -11,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import model.Episode;
 import model.Serie;
+import parsers.TVDBSerieEpisodeParser;
 import parsers.TVDBSerieHeaderParser;
 import utils.PropertiesReader;
 
@@ -53,16 +54,6 @@ public class TVDBFetcher implements Fetcher{
             url = new URL(getSourceUrl() + "GetSeries.php?seriesname=" + URLEncoder.encode(serieName, "UTF-8"));
             connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("GET");
-            connection.setRequestProperty("Content-Type", 
-               "text/xml");
-            connection.setRequestProperty("Content-Language", "en-US");
-            connection.setUseCaches (false);
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            //Send request
-            DataOutputStream wr = new DataOutputStream(connection.getOutputStream ());
-            wr.flush ();
-            wr.close ();
             //Get Response
             InputStream is = connection.getInputStream();
             BufferedReader rd = new BufferedReader(new InputStreamReader(is));
@@ -73,8 +64,7 @@ public class TVDBFetcher implements Fetcher{
                 response.append('\r');
             }
             rd.close();
-            System.out.println(response.toString());
-            currentSerie = (Serie)new TVDBSerieHeaderParser().parse(response.toString());
+            currentSerie = new TVDBSerieHeaderParser().parse(response.toString());
         } catch (Exception e) {
           e.printStackTrace();
         } finally {
@@ -84,7 +74,7 @@ public class TVDBFetcher implements Fetcher{
         }
     }
 
-    private void fetchSerie(){
+    private void fetchEpisodes(){
         URL url;
         HttpURLConnection connection = null;  
         try {
@@ -92,17 +82,6 @@ public class TVDBFetcher implements Fetcher{
             url = new URL(getSourceUrl() + apiKey + "/series/" + currentSerie.getId() + "/all/" + language + ".xml");
             connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("GET");
-            //connection.setRequestProperty("Content-Type", 
-            //        "text/xml");
-            //connection.setRequestProperty("Content-Language", "en-US");
-            //connection.setUseCaches (false);
-            //connection.setDoInput(true);
-            //connection.setDoOutput(true);
-            //Send request
-            //DataOutputStream wr = new DataOutputStream(connection.getOutputStream ());
-            //wr.flush ();
-            //wr.close ();
-            //Get Response
             InputStream is = connection.getInputStream();
             BufferedReader rd = new BufferedReader(new InputStreamReader(is));
             String line;
@@ -112,7 +91,7 @@ public class TVDBFetcher implements Fetcher{
                 response.append('\r');
             }
             rd.close();
-            System.out.println(response.toString());
+            List<Episode> episodes = new TVDBSerieEpisodeParser().parse(response.toString());
         } catch (Exception e) {
           e.printStackTrace();
         } finally {
@@ -126,7 +105,7 @@ public class TVDBFetcher implements Fetcher{
     public void fetch() {
         for (String serieName : serieNames){
             fetchGetSerie(serieName);
-            fetchSerie();
+            fetchEpisodes();
         }
     }
 
