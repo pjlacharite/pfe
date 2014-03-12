@@ -39,12 +39,32 @@ public class DatabaseInitializationServlet implements ServletContextListener {
             Class.forName("org.sqlite.JDBC");
             statement = connection.createStatement();
             // CREATE THE TABLES
-            /*THIS IS A TABLE TEST*/
-            String sql = "DROP TABLE IF EXISTS test";
+            String sql = "DROP TABLE IF EXISTS Serie";
             statement.executeUpdate(sql);
-            sql = "CREATE TABLE test(testField varchar(255))";
+            sql = "CREATE TABLE Serie("
+                    + "serieId varchar(255),"
+                    + "seasonCount int,"
+                    + "serieName varchar(255),"
+                    + "serieDescription varchar(255))";
             statement.executeUpdate(sql);
-            sql = "insert into test values('1')";
+            sql = "DROP TABLE IF EXISTS Season";
+            statement.executeUpdate(sql);
+            sql = "CREATE TABLE Season("
+                    + "seasonId varchar(255),"
+                    + "seasonNumber int,"
+                    + "dvdReleaseDate date,"
+                    + "episodeCount int)";
+            statement.executeUpdate(sql);
+            sql = "DROP TABLE IF EXISTS Episode";
+            statement.executeUpdate(sql);
+            sql = "CREATE TABLE Episode("
+                    + "episodeId varchar(255),"
+                    + "episodeNumber int,"
+                    + "seasonNumber int,"
+                    + "episodeName varchar(255),"
+                    + "episodeDescription varchar(255),"
+                    + "originalAirDate date,"
+                    + "originalViewers int)";
             statement.executeUpdate(sql);
             statement.close();
             connection.close();
