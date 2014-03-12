@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import utils.PropertiesReader;
 import android.util.Log;
 
 /**

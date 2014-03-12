@@ -1,3 +1,6 @@
 /main
 /persistence
 /fetchers
+/utils
+/series.properties
+/parsers
