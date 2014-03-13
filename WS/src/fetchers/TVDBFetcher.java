@@ -11,9 +11,13 @@ import java.util.List;
 import java.util.Properties;
 
 import model.Episode;
+import model.Season;
 import model.Serie;
-import parsers.TVDBSerieEpisodeParser;
-import parsers.TVDBSerieHeaderParser;
+import parsers.TVDBEpisodeParser;
+import parsers.TVDBSeasonParser;
+import parsers.TVDBSerieParser;
+import persistence.EpisodeDAO;
+import persistence.SeasonDAO;
 import persistence.SerieDAO;
 import utils.PropertiesReader;
 
@@ -66,7 +70,7 @@ public class TVDBFetcher implements Fetcher{
                 response.append('\r');
             }
             rd.close();
-            serie = new TVDBSerieHeaderParser().parse(response.toString());
+            serie = new TVDBSerieParser().parse(response.toString());
 
         } catch (Exception e) {
           e.printStackTrace();
@@ -85,6 +89,7 @@ public class TVDBFetcher implements Fetcher{
         try {
             //Create connection
             url = new URL(getSourceUrl() + apiKey + "/series/" + serie.getId() + "/all/" + language + ".xml");
+            System.out.println(url.toString());
             connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("GET");
             InputStream is = connection.getInputStream();
@@ -96,7 +101,7 @@ public class TVDBFetcher implements Fetcher{
                 response.append('\r');
             }
             rd.close();
-            episodes = new TVDBSerieEpisodeParser().parse(response.toString());
+            episodes = new TVDBEpisodeParser().parse(response.toString());
         } catch (Exception e) {
           e.printStackTrace();
         } finally {
@@ -111,8 +116,15 @@ public class TVDBFetcher implements Fetcher{
     public void fetch() {
         for (String serieName : serieNames){
             Serie serie = fetchSerie(serieName);
-            fetchEpisodes(serie);
+            List<Episode> episodes = fetchEpisodes(serie);
+            List<Season> seasons = new TVDBSeasonParser().parse(episodes);
             new SerieDAO().create(serie);
+            for (Season season: seasons){
+                new SeasonDAO().create(season);
+            }
+            for (Episode episode: episodes){
+                new EpisodeDAO().create(episode);
+            }
         }
     }
 

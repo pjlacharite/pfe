@@ -21,7 +21,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-public class TVDBSerieEpisodeParser{
+public class TVDBEpisodeParser{
 
     public List<Episode> parse(String input) {
         List<Episode> episodes = new ArrayList<Episode>();
@@ -52,6 +52,9 @@ public class TVDBSerieEpisodeParser{
                     System.out.println(episode.getEpisodeName());
                     System.out.println(episode.getEpisodeNumber());
                     System.out.println(episode.getSeasonNumber());*/
+                    if (episode.getSeasonNumber() == 0){
+                        continue;
+                    }
                     episodes.add(episode);
                 }
             }

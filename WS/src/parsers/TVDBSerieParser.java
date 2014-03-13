@@ -14,7 +14,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-public class TVDBSerieHeaderParser{
+public class TVDBSerieParser{
 
     public Serie parse(String input) {
         DocumentBuilderFactory factory;
