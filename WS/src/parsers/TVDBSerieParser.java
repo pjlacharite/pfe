@@ -28,13 +28,10 @@ public class TVDBSerieParser{
 
             NodeList nodes = document.getElementsByTagName("seriesid");
             serie.setId(nodes.item(0).getTextContent());
-            System.out.println(serie.getId());
             nodes = document.getElementsByTagName("SeriesName");
             serie.setName(nodes.item(0).getTextContent());
-            System.out.println(serie.getName());
             nodes = document.getElementsByTagName("Overview");
             serie.setDescription(nodes.item(0).getTextContent());
-            System.out.println(serie.getDescription());
             return serie;
         } catch (ParserConfigurationException e) {
             System.out.println(e.getLocalizedMessage());

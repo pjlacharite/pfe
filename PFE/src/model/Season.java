@@ -1,6 +1,6 @@
 package model;
 
-import java.util.Date;
+import java.sql.Date;
 
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;
@@ -15,6 +15,8 @@ public class Season {
     @Attribute
     private String id;
     @Attribute
+    private String serieId;
+    @Attribute
     private int seasonNumber;
     @Attribute
     private Date dvdReleaseDate;
@@ -25,8 +27,8 @@ public class Season {
      * Empty constructor for simpleXML
      */
     public Season(){
-        
     }
+
     /**
      * Constructor for Season
      * @param seasonNumber
@@ -39,7 +41,7 @@ public class Season {
         this.dvdReleaseDate = dvdReleaseDate;
         this.setEpisodeCount(episodeCount);
     }
-    
+
     /**
      * Constructor for Season
      * @param seasonNumber
@@ -50,7 +52,7 @@ public class Season {
         this.seasonNumber = seasonNumber;
         this.dvdReleaseDate = dvdReleaseDate;
     }
-    
+
     /**
      * Constructor for Season
      * @param seasonNumber
@@ -114,5 +116,12 @@ public class Season {
 
     public void setEpisodeCount(int episodeCount) {
         this.episodeCount = episodeCount;
+    }
+
+    public String getSerieId() {
+        return serieId;
+    }
+    public void setSerieId(String serieId) {
+        this.serieId = serieId;
     }
 }

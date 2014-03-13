@@ -51,6 +51,7 @@ public class DatabaseInitializationServlet implements ServletContextListener {
             statement.executeUpdate(sql);
             sql = "CREATE TABLE Season("
                     + "seasonId varchar(255),"
+                    + "serieId varchar(255),"
                     + "seasonNumber int,"
                     + "dvdReleaseDate date,"
                     + "episodeCount int)";
@@ -59,6 +60,7 @@ public class DatabaseInitializationServlet implements ServletContextListener {
             statement.executeUpdate(sql);
             sql = "CREATE TABLE Episode("
                     + "episodeId varchar(255),"
+                    + "serieId varchar(255),"
                     + "episodeNumber int,"
                     + "seasonNumber int,"
                     + "episodeName varchar(255),"

@@ -42,7 +42,6 @@ public class SerieController implements Controller {
      */
     public Serie fetchSerie(String id){
         lastFetchedSerie = null;
-        Log.d("WTF", id);
         new FetchSerie().execute(id);
         while(lastFetchedSerie == null){
           //Waiting for WS call to finish
@@ -71,19 +70,15 @@ public class SerieController implements Controller {
                 e.printStackTrace();
             }
             if (serieList != null){
-                int i = 0;
-                for (String serieName : serieList.getSeriesName()){
-                    series.add(new Serie(String.valueOf(i), serieName));
-                    i++;
+                for (int i = 0; i < serieList.getSeriesName().size(); i++){
+                    series.add(new Serie(serieList.getSeriesId().get(i), serieList.getSeriesName().get(i)));
                 }
-                //seriesList.addAll(carrier.getSeries());
             }
             return series;
         }
     }
 
     private class FetchSerie extends AsyncTask<String, Void, Void>{
-
         @Override
         protected Void doInBackground(String... params) {
             List<String> paramNames = new ArrayList<String>();

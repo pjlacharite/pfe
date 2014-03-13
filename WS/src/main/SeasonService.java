@@ -8,11 +8,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import mock.SeasonMock;
 import model.Season;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
+
+import persistence.SeasonDAO;
 
 @Path("/seasonservice")
 public class SeasonService {
@@ -23,7 +24,8 @@ public class SeasonService {
         Serializer serializer = new Persister();
         StringWriter writer = new StringWriter();
         try {
-          Season season = SeasonMock.mockSeasons().get(Integer.parseInt(serieId));
+          Season season = new SeasonDAO().find(serieId + "-" + seasonNumber);
+          //Season season = SeasonMock.mockSeasons().get(Integer.parseInt(serieId));
           serializer.write(season, writer);
           System.out.println(writer.getBuffer());
         } catch (Exception e) {

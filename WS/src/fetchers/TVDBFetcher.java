@@ -42,13 +42,10 @@ public class TVDBFetcher implements Fetcher{
         String[] seriesList = properties.getProperty(SERIES_KEY).split(";");
         for (String serieName: seriesList){
             serieNames.add(serieName);
-            System.out.println(serieName);
         }
         properties = new PropertiesReader().getProperties(CONFIG_FILE);
         apiKey = properties.getProperty(TVDB_API_KEY);
         language = properties.getProperty(LANGUAGE);
-        System.out.println(apiKey);
-        System.out.println(language);
     }
 
     private Serie fetchSerie(String serieName){
@@ -89,7 +86,6 @@ public class TVDBFetcher implements Fetcher{
         try {
             //Create connection
             url = new URL(getSourceUrl() + apiKey + "/series/" + serie.getId() + "/all/" + language + ".xml");
-            System.out.println(url.toString());
             connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("GET");
             InputStream is = connection.getInputStream();
@@ -118,11 +114,15 @@ public class TVDBFetcher implements Fetcher{
             Serie serie = fetchSerie(serieName);
             List<Episode> episodes = fetchEpisodes(serie);
             List<Season> seasons = new TVDBSeasonParser().parse(episodes);
+            serie.setSeasonCount(seasons.size());
             new SerieDAO().create(serie);
             for (Season season: seasons){
+                season.setSerieId(serie.getId());
+                season.setId(season.getSerieId() + "-" + season.getSeasonNumber());
                 new SeasonDAO().create(season);
             }
             for (Episode episode: episodes){
+                episode.setSerieId(serie.getId());
                 new EpisodeDAO().create(episode);
             }
         }

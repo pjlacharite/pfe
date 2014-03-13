@@ -7,11 +7,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import mock.SeriesMock;
 import model.Serie;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
+
+import persistence.SerieDAO;
 
 @Path("/serieservice")
 public class SerieService {
@@ -22,7 +23,7 @@ public class SerieService {
         Serializer serializer = new Persister();
         StringWriter writer = new StringWriter();
         try {
-          Serie serie = SeriesMock.mockSeries().get(Integer.parseInt(serieId));
+          Serie serie = new SerieDAO().find(serieId);
           serializer.write(serie, writer);
           System.out.println(writer.getBuffer());
         } catch (Exception e) {

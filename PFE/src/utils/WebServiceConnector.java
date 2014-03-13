@@ -32,8 +32,6 @@ public class WebServiceConnector{
         HttpParams httpParameters = new BasicHttpParams();
         int timeoutConnection = 5000;
         HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
-        int timeoutSocket = 8000;
-        HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
         HttpClient httpClient = new DefaultHttpClient(httpParameters);
         String serviceCall = WS_URL + service;
         if (parametersValue != null){

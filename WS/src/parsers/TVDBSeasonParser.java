@@ -21,7 +21,6 @@ public class TVDBSeasonParser {
                 season = new Season();
                 currentSeason = episode.getSeasonNumber();
                 season.setSeasonNumber(currentSeason);
-                season.setId(String.valueOf(currentSeason));
                 episodeCount = 1;
             }
             season.setEpisodeCount(episodeCount);

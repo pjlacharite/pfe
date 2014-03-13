@@ -48,10 +48,6 @@ public class TVDBEpisodeParser{
                     
                     episode.setEpisodeNumber(Integer.parseInt(element.getElementsByTagName("EpisodeNumber").item(0).getTextContent()));
                     episode.setSeasonNumber(Integer.parseInt(element.getElementsByTagName("SeasonNumber").item(0).getTextContent()));
-                    /*System.out.println(episode.getId());
-                    System.out.println(episode.getEpisodeName());
-                    System.out.println(episode.getEpisodeNumber());
-                    System.out.println(episode.getSeasonNumber());*/
                     if (episode.getSeasonNumber() == 0){
                         continue;
                     }

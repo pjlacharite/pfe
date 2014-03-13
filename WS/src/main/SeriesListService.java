@@ -7,7 +7,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import mock.SeriesMock;
 import model.Serie;
 import model.SerieList;
 
@@ -24,14 +23,13 @@ public class SeriesListService {
       @Produces(MediaType.TEXT_XML)
       public String getSerieListXml() {
           List<Serie> series = new SerieDAO().findAll(null);
-
           Serializer serializer = new Persister();
           StringWriter writer = new StringWriter();
           SerieList serieList = new SerieList();
           try {
-            //List<Serie> series = SeriesMock.mockSeries();
             for (Serie serie: series){
                 serieList.addSerieName(serie.getName());
+                serieList.addSerieId(serie.getId());
             }
             serializer.write(serieList, writer);
             System.out.println(writer.getBuffer());

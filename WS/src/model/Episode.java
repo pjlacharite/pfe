@@ -15,6 +15,8 @@ public class Episode {
     @Attribute
     private String id;
     @Attribute
+    private String serieId;
+    @Attribute
     private int episodeNumber;
     @Attribute
     private int seasonNumber;
@@ -152,5 +154,11 @@ public class Episode {
     }
     public void setSeasonNumber(int seasonNumber) {
         this.seasonNumber = seasonNumber;
+    }
+    public String getSerieId() {
+        return serieId;
+    }
+    public void setSerieId(String serieId) {
+        this.serieId = serieId;
     }
 }
