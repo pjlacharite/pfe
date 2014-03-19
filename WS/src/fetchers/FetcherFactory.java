@@ -8,7 +8,8 @@ public class FetcherFactory {
     
     public FetcherFactory(){
         fetchers = new ArrayList<Fetcher>();
-        fetchers.add(new TVDBFetcher());
+        //fetchers.add(new TVDBFetcher());
+        fetchers.add(new ROVIFetcher());
     }
 
     public List<Fetcher> getFetchers(){
