@@ -14,10 +14,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
+import model.Broadcaster;
+import parsers.ROVIBroadcasterParser;
+import parsers.ROVIScheduleParser;
+import parsers.ROVISerieParser;
 import utils.PropertiesReader;
 
 public class ROVIFetcher implements Fetcher {
@@ -52,12 +52,12 @@ public class ROVIFetcher implements Fetcher {
 
     @Override
     public void fetch() {
-       for (String serieName: serieNames){
-           //String serieId = fetchShowId(serieName);
-           //System.out.println(serieName);
-        
+        List<Broadcaster> broadcasters = fetchBroadcasters();
+        String serieId = null;
+        for (String serieName: serieNames){
+           serieId = fetchShowId(serieName);
        }
-       System.out.println(fetchBroadcasters());
+       fetchSchedule(broadcasters.get(0).getId(), serieId);
     }
 
     private String fetchShowId(String serieName){
@@ -77,12 +77,8 @@ public class ROVIFetcher implements Fetcher {
                 response.append('\r');
             }
             rd.close();
-            temp = response.toString();
-            JSONObject jsonObject1 = (JSONObject) new JSONParser().parse(temp); 
-            JSONObject jsonObject2 = (JSONObject) jsonObject1.get("searchResponse");
-            JSONArray jsonArray = (JSONArray) jsonObject2.get("results");
-            temp = String.valueOf((Long)((JSONObject)jsonArray.get(0)).get("id"));
-            
+            temp = new ROVISerieParser().parse(response.toString());
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -93,10 +89,10 @@ public class ROVIFetcher implements Fetcher {
         return temp;
     }
 
-    private String fetchBroadcasters(){
+    private List<Broadcaster> fetchBroadcasters(){
         URL url;
         HttpURLConnection connection = null;
-        String temp = null;
+        List<Broadcaster> broadcasters = new ArrayList<Broadcaster>();
         try {
             url = new URL(getSourceUrl() + "TVlistings/v9/listings/services/postalcode/H3T+1B2/info?locale=en-CA&countrycode=CA&format=json&apikey=" + apiListingKey);
             connection = (HttpURLConnection)url.openConnection();
@@ -110,7 +106,7 @@ public class ROVIFetcher implements Fetcher {
                 response.append('\r');
             }
             rd.close();
-            temp = response.toString();
+            broadcasters = new ROVIBroadcasterParser().parse(response.toString());
         } catch (Exception e) {
           e.printStackTrace();
         } finally {
@@ -118,11 +114,33 @@ public class ROVIFetcher implements Fetcher {
                 connection.disconnect();
             }
         }
-        return temp;
+        return broadcasters;
     }
 
     private void fetchSchedule(String broadcasterId, String serieId){
-        //http://api.rovicorp.com/TVlistings/v9/listings/programdetails/360861/830135/info?locale=en-US&include=Program&startdate=2011-02-01T08:00:00Z&duration=20160&apikey=apikey&sig=sig
+        URL url;
+        HttpURLConnection connection = null;
+        try {
+            url = new URL(getSourceUrl() + "TVlistings/v9/listings/programdetails/" + broadcasterId + "/" + serieId + "/info?locale=en-CA&countrycode=CA&include=Program&duration=20160&apikey=" + apiListingKey);
+            connection = (HttpURLConnection)url.openConnection();
+            connection.setRequestMethod("GET");
+            InputStream is = connection.getInputStream();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+            String line;
+            StringBuffer response = new StringBuffer(); 
+            while((line = rd.readLine()) != null) {
+                response.append(line);
+                response.append('\r');
+            }
+            rd.close();
+            System.out.println(new ROVIScheduleParser().parse(response.toString()));
+        } catch (Exception e) {
+          e.printStackTrace();
+        } finally {
+            if(connection != null) {
+                connection.disconnect();
+            }
+        }
     }
     @Override
     public String getSourceUrl() {
