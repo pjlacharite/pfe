@@ -11,13 +11,12 @@ import java.util.List;
 import java.util.Properties;
 
 import model.Episode;
+import model.ModelManager;
 import model.Season;
 import model.Serie;
 import parsers.TVDBEpisodeParser;
 import parsers.TVDBSeasonParser;
 import parsers.TVDBSerieParser;
-import persistence.EpisodeDAO;
-import persistence.SeasonDAO;
 import persistence.SerieDAO;
 import utils.PropertiesReader;
 
@@ -110,22 +109,28 @@ public class TVDBFetcher implements Fetcher{
 
     @Override
     public void fetch() {
+        System.out.println("Fetching from TVDB");
+        ModelManager modelManager = ModelManager.getInstance();
+        List<Serie> series = new ArrayList<Serie>();
         for (String serieName : serieNames){
             Serie serie = fetchSerie(serieName);
             List<Episode> episodes = fetchEpisodes(serie);
             List<Season> seasons = new TVDBSeasonParser().parse(episodes);
             serie.setSeasonCount(seasons.size());
+            series.add(serie);
             new SerieDAO().create(serie);
             for (Season season: seasons){
                 season.setSerieId(serie.getId());
                 season.setId(season.getSerieId() + "-" + season.getSeasonNumber());
-                new SeasonDAO().create(season);
             }
             for (Episode episode: episodes){
                 episode.setSerieId(serie.getId());
-                new EpisodeDAO().create(episode);
             }
+            modelManager.addEpisodes(episodes);
+            modelManager.addSeasons(seasons);
         }
+
+        ModelManager.getInstance().addSeries(series);
     }
 
 

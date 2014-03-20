@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Properties;
 
 import model.Broadcaster;
+import model.ModelManager;
+import model.ScheduleSlot;
 import parsers.ROVIBroadcasterParser;
 import parsers.ROVIScheduleParser;
 import parsers.ROVISerieParser;
@@ -52,12 +54,15 @@ public class ROVIFetcher implements Fetcher {
 
     @Override
     public void fetch() {
+        System.out.println("Fetching from ROVI");
         List<Broadcaster> broadcasters = fetchBroadcasters();
         String serieId = null;
+        List<ScheduleSlot> scheduleSlots = null;
         for (String serieName: serieNames){
            serieId = fetchShowId(serieName);
-       }
-       fetchSchedule(broadcasters.get(0).getId(), serieId);
+           scheduleSlots = fetchSchedule(broadcasters.get(0).getId(), serieId);
+        }
+        ModelManager.getInstance().addScheduleSlots(scheduleSlots);
     }
 
     private String fetchShowId(String serieName){
@@ -117,9 +122,10 @@ public class ROVIFetcher implements Fetcher {
         return broadcasters;
     }
 
-    private void fetchSchedule(String broadcasterId, String serieId){
+    private List<ScheduleSlot> fetchSchedule(String broadcasterId, String serieId){
         URL url;
         HttpURLConnection connection = null;
+        List<ScheduleSlot> scheduleSlots = new ArrayList<ScheduleSlot>();
         try {
             url = new URL(getSourceUrl() + "TVlistings/v9/listings/programdetails/" + broadcasterId + "/" + serieId + "/info?locale=en-CA&countrycode=CA&include=Program&duration=20160&apikey=" + apiListingKey);
             connection = (HttpURLConnection)url.openConnection();
@@ -133,7 +139,7 @@ public class ROVIFetcher implements Fetcher {
                 response.append('\r');
             }
             rd.close();
-            System.out.println(new ROVIScheduleParser().parse(response.toString()));
+            scheduleSlots = new ROVIScheduleParser().parse(response.toString());
         } catch (Exception e) {
           e.printStackTrace();
         } finally {
@@ -141,6 +147,7 @@ public class ROVIFetcher implements Fetcher {
                 connection.disconnect();
             }
         }
+        return scheduleSlots;
     }
     @Override
     public String getSourceUrl() {

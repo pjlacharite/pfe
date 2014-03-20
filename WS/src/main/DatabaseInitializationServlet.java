@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import model.ModelManager;
 import fetchers.Fetcher;
 import fetchers.FetcherFactory;
 import persistence.DatabaseUtils;
@@ -80,6 +81,7 @@ public class DatabaseInitializationServlet implements ServletContextListener {
         for (Fetcher fetcher: fetchers){
             fetcher.fetch();
         }
+        ModelManager.getInstance().processModels();
     }
 
 }

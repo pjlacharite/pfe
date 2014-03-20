@@ -1,6 +1,5 @@
 package persistence;
 
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,10 +10,12 @@ import java.util.List;
 import model.Episode;
 
 public class EpisodeDAO extends AbstractDAO<Episode> {
+    public EpisodeDAO(){
+        this.connection = DatabaseUtils.getConnection();
+    }
 
     @Override
-    public Episode create(Episode object) {
-        Connection connection = DatabaseUtils.getConnection();
+    public Episode create(Episode object) { 
         try{
             String sql = "INSERT INTO Episode (episodeId, serieId, serieId, seasonNumber, episodeName, episodeDescription, originalAirDate, originalViewers) values (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -29,7 +30,6 @@ public class EpisodeDAO extends AbstractDAO<Episode> {
             }
             statement.setInt(8, object.getOriginalViewers());
             statement.executeUpdate();
-            connection.close();
         }catch (SQLException e){
             System.out.println(e.getLocalizedMessage());
             return null;
@@ -39,7 +39,6 @@ public class EpisodeDAO extends AbstractDAO<Episode> {
 
     @Override
     public Episode find(String id) {
-        Connection connection = DatabaseUtils.getConnection();
         Episode episode = null;
         try{
             String sql = "SELECT * FROM Episode WHERE episodeId = ?";
@@ -57,7 +56,6 @@ public class EpisodeDAO extends AbstractDAO<Episode> {
                 episode.setOriginalAirDate(new Date(resultSet.getInt(7)));
                 episode.setOriginalViewers(resultSet.getInt(8));
             }
-            connection.close();
         }catch (SQLException e){
             System.out.println(e.getLocalizedMessage());
         }
@@ -66,7 +64,6 @@ public class EpisodeDAO extends AbstractDAO<Episode> {
 
     @Override
     public List<Episode> findAll(List<String> filters) {
-        Connection connection = DatabaseUtils.getConnection();
         List<Episode> episodes = new ArrayList<Episode>();
         try{
             String sql = "SELECT * FROM Episode WHERE serieId = ?";
@@ -85,7 +82,6 @@ public class EpisodeDAO extends AbstractDAO<Episode> {
                 episode.setOriginalViewers(resultSet.getInt(8));
                 episodes.add(episode);
             }
-            connection.close();
         }catch (SQLException e){
             System.out.println(e.getLocalizedMessage());
         }

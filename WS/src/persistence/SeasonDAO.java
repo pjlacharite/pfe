@@ -12,6 +12,9 @@ import model.Season;
 
 public class SeasonDAO extends AbstractDAO<Season> {
 
+    public SeasonDAO(){
+        this.connection = DatabaseUtils.getConnection();
+    }
     @Override
     public Season create(Season object) {
         Connection connection = DatabaseUtils.getConnection();
@@ -24,7 +27,6 @@ public class SeasonDAO extends AbstractDAO<Season> {
             statement.setDate(4, object.getDvdReleaseDate());
             statement.setInt(5, object.getEpisodeCount());
             statement.executeUpdate();
-            connection.close();
         }catch (SQLException e){
             System.out.println(e.getLocalizedMessage());
             return null;
@@ -34,7 +36,6 @@ public class SeasonDAO extends AbstractDAO<Season> {
 
     @Override
     public List<Season> findAll(List<String> filters) {
-        Connection connection = DatabaseUtils.getConnection();
         List<Season> seasons = new ArrayList<Season>();
         try{
             String sql = "SELECT * FROM Season WHERE (seasonNumber = ? AND serieId = ?)";
@@ -51,7 +52,6 @@ public class SeasonDAO extends AbstractDAO<Season> {
                 season.setEpisodeCount(resultSet.getInt(5));
                 seasons.add(season);
             }
-            connection.close();
         }catch (SQLException e){
             System.out.println(e.getLocalizedMessage());
         }
@@ -60,7 +60,6 @@ public class SeasonDAO extends AbstractDAO<Season> {
 
     @Override
     public Season find(String id) {
-        Connection connection = DatabaseUtils.getConnection();
         Season season = null;
         try{
             String sql = "SELECT * FROM Season WHERE id = ?";
@@ -75,7 +74,6 @@ public class SeasonDAO extends AbstractDAO<Season> {
                 season.setDvdReleaseDate(new Date(resultSet.getInt(4)));
                 season.setEpisodeCount(resultSet.getInt(5));
             }
-            connection.close();
         }catch (SQLException e){
             System.out.println(e.getLocalizedMessage());
         }

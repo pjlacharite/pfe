@@ -1,6 +1,5 @@
 package persistence;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,9 +10,11 @@ import model.Serie;
 
 public class SerieDAO extends AbstractDAO<Serie> {
 
+    public SerieDAO(){
+        this.connection = DatabaseUtils.getConnection();
+    }
     @Override
     public Serie create(Serie object) {
-        Connection connection = DatabaseUtils.getConnection();
         try{
             String sql = "INSERT INTO Serie (serieId, seasonCount, serieName, serieDescription) values (?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -22,7 +23,6 @@ public class SerieDAO extends AbstractDAO<Serie> {
             statement.setString(3, object.getName());
             statement.setString(4, object.getDescription());
             statement.executeUpdate();
-            connection.close();
         }catch (SQLException e){
             System.out.println(e.getLocalizedMessage());
             return null;
@@ -32,7 +32,6 @@ public class SerieDAO extends AbstractDAO<Serie> {
 
     @Override
     public List<Serie> findAll(List<String> filters) {
-        Connection connection = DatabaseUtils.getConnection();
         List<Serie> series = new ArrayList<Serie>();
         try{
             String sql = "SELECT * FROM Serie";
@@ -46,7 +45,6 @@ public class SerieDAO extends AbstractDAO<Serie> {
                 serie.setDescription(resultSet.getString(4));
                 series.add(serie);
             }
-            connection.close();
         }catch (SQLException e){
             System.out.println(e.getLocalizedMessage());
         }
@@ -55,7 +53,6 @@ public class SerieDAO extends AbstractDAO<Serie> {
 
     @Override
     public Serie find(String id) {
-        Connection connection = DatabaseUtils.getConnection();
         Serie serie = null;
         try{
             String sql = "SELECT * FROM Serie WHERE serieId = ?";
@@ -69,7 +66,6 @@ public class SerieDAO extends AbstractDAO<Serie> {
                 serie.setName(resultSet.getString(3));
                 serie.setDescription(resultSet.getString(4));
             }
-            connection.close();
         }catch (SQLException e){
             System.out.println(e.getLocalizedMessage());
         }

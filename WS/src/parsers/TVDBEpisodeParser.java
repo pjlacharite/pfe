@@ -65,7 +65,6 @@ public class TVDBEpisodeParser{
         } catch (ParseException e) {
             System.out.println(e.getLocalizedMessage());
         }
-        System.out.println("Episode count: " + episodes.size());
         return episodes;
     }
 

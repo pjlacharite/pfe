@@ -24,18 +24,11 @@ public class ROVIScheduleParser {
                 ScheduleSlot scheduleSlot = new ScheduleSlot();
                 scheduleSlot.setAiringTime(((JSONObject)jsonArray.get(i)).get("AiringTime").toString());
                 scheduleSlot.setBroadcasterId(((JSONObject)jsonArray.get(i)).get("ServiceId").toString());
-                scheduleSlot.setSerieId(((JSONObject)jsonArray.get(i)).get("SeriesId").toString());
                 scheduleSlot.setDuration(((JSONObject)jsonArray.get(i)).get("Duration").toString());
                 scheduleSlot.setTitle(((JSONObject)jsonArray.get(i)).get("Title").toString());
-                scheduleSlot.setEpisodeTitle(((JSONObject)jsonArray.get(i)).get("EpisodeTitle").toString());
+                if (((JSONObject)jsonArray.get(i)).get("EpisodeTitle") != null)
+                    scheduleSlot.setEpisodeTitle(((JSONObject)jsonArray.get(i)).get("EpisodeTitle").toString());
                 scheduleSlot.setSource(((JSONObject)jsonArray.get(i)).get("SourceDisplayName").toString());
-                System.out.println(scheduleSlot.getAiringTime());
-                System.out.println(scheduleSlot.getBroadcasterId());
-                System.out.println(scheduleSlot.getDuration());
-                System.out.println(scheduleSlot.getEpisodeTitle());
-                System.out.println(scheduleSlot.getSerieId());
-                System.out.println(scheduleSlot.getSource());
-                System.out.println(scheduleSlot.getTitle());
                 scheduleSlots.add(scheduleSlot);
             }
         } catch (org.json.simple.parser.ParseException e) {
