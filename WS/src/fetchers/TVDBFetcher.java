@@ -17,7 +17,6 @@ import model.Serie;
 import parsers.TVDBEpisodeParser;
 import parsers.TVDBSeasonParser;
 import parsers.TVDBSerieParser;
-import persistence.SerieDAO;
 import utils.PropertiesReader;
 
 public class TVDBFetcher implements Fetcher{
@@ -118,7 +117,6 @@ public class TVDBFetcher implements Fetcher{
             List<Season> seasons = new TVDBSeasonParser().parse(episodes);
             serie.setSeasonCount(seasons.size());
             series.add(serie);
-            new SerieDAO().create(serie);
             for (Season season: seasons){
                 season.setSerieId(serie.getId());
                 season.setId(season.getSerieId() + "-" + season.getSeasonNumber());
@@ -129,10 +127,8 @@ public class TVDBFetcher implements Fetcher{
             modelManager.addEpisodes(episodes);
             modelManager.addSeasons(seasons);
         }
-
         ModelManager.getInstance().addSeries(series);
     }
-
 
     @Override
     public String getSourceUrl() {

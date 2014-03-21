@@ -24,7 +24,10 @@ public class SeasonService {
         Serializer serializer = new Persister();
         StringWriter writer = new StringWriter();
         try {
-          Season season = new SeasonDAO().find(serieId + "-" + seasonNumber);
+          SeasonDAO seasonDAO = new SeasonDAO(); 
+          Season season = seasonDAO.find(serieId + "-" + seasonNumber);
+          seasonDAO.releaseConnection();
+          System.out.println(season.getId());
           //Season season = SeasonMock.mockSeasons().get(Integer.parseInt(serieId));
           serializer.write(season, writer);
           System.out.println(writer.getBuffer());

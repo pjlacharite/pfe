@@ -69,6 +69,8 @@ public class DatabaseInitializationServlet implements ServletContextListener {
                     + "originalAirDate date,"
                     + "originalViewers int)";
             statement.executeUpdate(sql);
+            sql = "DROP TABLE IF EXISTS ScheduleSlot";
+            statement.executeUpdate(sql);
             sql = "CREATE TABLE ScheduleSlot("
                     + "serieId varchar(255),"
                     + "broadcasterId varchar(255),"
@@ -76,6 +78,8 @@ public class DatabaseInitializationServlet implements ServletContextListener {
                     + "title varchar(255),"
                     + "airingTime varchar(255),"
                     + "source varchar(255))";
+            statement.executeUpdate(sql);
+            sql = "DROP TABLE IF EXISTS Broadcaster";
             statement.executeUpdate(sql);
             sql = "CREATE TABLE Broadcaster("
                     + "broadcasterId varchar(255),"

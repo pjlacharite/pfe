@@ -23,7 +23,9 @@ public class SerieService {
         Serializer serializer = new Persister();
         StringWriter writer = new StringWriter();
         try {
-          Serie serie = new SerieDAO().find(serieId);
+          SerieDAO serieDAO = new SerieDAO();
+          Serie serie = serieDAO.find(serieId);
+          serieDAO.releaseConnection();
           serializer.write(serie, writer);
           System.out.println(writer.getBuffer());
         } catch (Exception e) {

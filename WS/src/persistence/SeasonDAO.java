@@ -60,7 +60,7 @@ public class SeasonDAO extends AbstractDAO<Season> {
     public Season find(String id) {
         Season season = null;
         try{
-            String sql = "SELECT * FROM Season WHERE id = ?";
+            String sql = "SELECT * FROM Season WHERE seasonId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, id);
             ResultSet resultSet = statement.executeQuery();

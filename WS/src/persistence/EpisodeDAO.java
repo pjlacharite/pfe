@@ -66,9 +66,11 @@ public class EpisodeDAO extends AbstractDAO<Episode> {
     public List<Episode> findAll(List<String> filters) {
         List<Episode> episodes = new ArrayList<Episode>();
         try{
-            String sql = "SELECT * FROM Episode WHERE serieId = ?";
+            String sql = "SELECT * FROM Episode WHERE (serieId = ? AND seasonNumber = ? AND episodeNumber = ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, filters.get(0));
+            statement.setString(2, filters.get(1));
+            statement.setString(3, filters.get(2));
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 Episode episode = new Episode();
