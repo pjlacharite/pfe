@@ -1,6 +1,4 @@
-/fetchers
-/parsers
 /model
-/cleaner
-/main
 /persistence
+/main
+/fetchers

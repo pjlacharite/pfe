@@ -62,6 +62,7 @@ public class ROVIFetcher implements Fetcher {
            serieId = fetchShowId(serieName);
            scheduleSlots = fetchSchedule(broadcasters.get(0).getId(), serieId);
         }
+        ModelManager.getInstance().addBroadcasters(broadcasters);
         ModelManager.getInstance().addScheduleSlots(scheduleSlots);
     }
 

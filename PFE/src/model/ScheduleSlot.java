@@ -36,6 +36,11 @@ public class ScheduleSlot {
     public ScheduleSlot(){
     }
 
+    @Override
+    public int hashCode(){
+        return Integer.parseInt(broadcasterId);
+    }
+
     public String getSerieId() {
         return serieId;
     }

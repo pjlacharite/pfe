@@ -1,6 +1,5 @@
 package persistence;
 
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +16,6 @@ public class SeasonDAO extends AbstractDAO<Season> {
     }
     @Override
     public Season create(Season object) {
-        Connection connection = DatabaseUtils.getConnection();
         try{
             String sql = "INSERT INTO Season (seasonId, serieId, seasonNumber, dvdReleaseDate, episodeCount) values (?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);

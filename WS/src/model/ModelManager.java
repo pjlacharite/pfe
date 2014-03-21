@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import persistence.BroadcasterDAO;
 import persistence.EpisodeDAO;
 import persistence.ScheduleSlotDAO;
 import persistence.SeasonDAO;
@@ -15,12 +16,14 @@ public class ModelManager {
     private List<Season> seasons;
     private List<Episode> episodes;
     private List<ScheduleSlot> scheduleSlots;
+    private List<Broadcaster> broadcasters;
 
     private ModelManager(){
         series = new ArrayList<Serie>();
         seasons = new ArrayList<Season>();
         episodes = new ArrayList<Episode>();
         scheduleSlots = new ArrayList<ScheduleSlot>();
+        broadcasters = new ArrayList<Broadcaster>();
     }
 
     public static ModelManager getInstance(){
@@ -51,17 +54,26 @@ public class ModelManager {
         for (Episode episode: episodes){
             episodeDAO.create(episode);
         }
+        BroadcasterDAO broadcasterDAO = new BroadcasterDAO();
+        System.out.println("Processing broadcasters into database");
+        for (Broadcaster broadcaster: broadcasters){
+            broadcasterDAO.create(broadcaster);
+        }
         ScheduleSlotDAO scheduleSlotDAO = new ScheduleSlotDAO();
         System.out.println("Processing scheduleSlots into database");
         for (ScheduleSlot scheduleSlot: scheduleSlots){
             scheduleSlotDAO.create(scheduleSlot);
+            Broadcaster broadcaster = new Broadcaster();
+            broadcaster.setId(scheduleSlot.getBroadcasterId());
+            broadcaster.setName(scheduleSlot.getSource());
+            broadcasters.add(broadcaster);
         }
-
         try {
             serieDAO.releaseConnection();
             seasonDAO.releaseConnection();
             episodeDAO.releaseConnection();
             scheduleSlotDAO.releaseConnection();
+            broadcasterDAO.releaseConnection();
         } catch (SQLException e) {
             System.out.println(e.getLocalizedMessage());
         }
@@ -91,5 +103,11 @@ public class ModelManager {
     }
     public void addScheduleSlots(List<ScheduleSlot> scheduleSlots) {
         this.scheduleSlots.addAll(scheduleSlots);
+    }
+    public List<Broadcaster> getBroadcasters() {
+        return broadcasters;
+    }
+    public void addBroadcasters(List<Broadcaster> broadcasters) {
+        this.broadcasters.addAll(broadcasters);
     }
 }
