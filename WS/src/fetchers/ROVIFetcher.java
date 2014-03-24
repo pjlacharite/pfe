@@ -57,10 +57,10 @@ public class ROVIFetcher implements Fetcher {
         System.out.println("Fetching from ROVI");
         List<Broadcaster> broadcasters = fetchBroadcasters();
         String serieId = null;
-        List<ScheduleSlot> scheduleSlots = null;
+        List<ScheduleSlot> scheduleSlots = new ArrayList<ScheduleSlot>();
         for (String serieName: serieNames){
            serieId = fetchShowId(serieName);
-           scheduleSlots = fetchSchedule(broadcasters.get(0).getId(), serieId);
+           scheduleSlots.addAll(fetchSchedule(broadcasters.get(0).getId(), serieId));
         }
         ModelManager.getInstance().addBroadcasters(broadcasters);
         ModelManager.getInstance().addScheduleSlots(scheduleSlots);
@@ -128,7 +128,7 @@ public class ROVIFetcher implements Fetcher {
         HttpURLConnection connection = null;
         List<ScheduleSlot> scheduleSlots = new ArrayList<ScheduleSlot>();
         try {
-            url = new URL(getSourceUrl() + "TVlistings/v9/listings/programdetails/" + broadcasterId + "/" + serieId + "/info?locale=en-CA&countrycode=CA&include=Program&duration=20160&apikey=" + apiListingKey);
+            url = new URL(getSourceUrl() + "TVlistings/v9/listings/programdetails/" + broadcasterId + "/" + serieId + "/info?locale=en-CA&countrycode=CA&include=Program&duration=1440&apikey=" + apiListingKey);
             connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("GET");
             InputStream is = connection.getInputStream();

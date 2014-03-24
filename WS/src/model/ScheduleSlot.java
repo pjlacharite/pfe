@@ -18,7 +18,7 @@ public class ScheduleSlot {
     private String duration;
     @Attribute
     private String title;
-    @Attribute
+    @Attribute(required=false)
     private String episodeTitle;
     @Attribute
     private String airingTime;

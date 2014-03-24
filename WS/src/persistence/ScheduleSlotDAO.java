@@ -20,10 +20,10 @@ public class ScheduleSlotDAO extends AbstractDAO<ScheduleSlot>{
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, object.getSerieId());
             statement.setString(2, object.getBroadcasterId());
-            statement.setString(1, object.getDuration());
-            statement.setString(2, object.getTitle());
-            statement.setString(1, object.getAiringTime());
-            statement.setString(2, object.getSource());
+            statement.setString(3, object.getDuration());
+            statement.setString(4, object.getTitle());
+            statement.setString(5, object.getAiringTime());
+            statement.setString(6, object.getSource());
             statement.executeUpdate();
         }catch (SQLException e){
             System.out.println(e.getLocalizedMessage());
@@ -59,9 +59,9 @@ public class ScheduleSlotDAO extends AbstractDAO<ScheduleSlot>{
     public List<ScheduleSlot> findAll(List<String> filters) {
         List<ScheduleSlot> scheduleSlots = new ArrayList<ScheduleSlot>();
         try{
-            String sql = "SELECT * FROM Season WHERE (seasonNumber = ? AND serieId = ?)";
+            String sql = "SELECT * FROM ScheduleSlot WHERE (serieId = ? AND broadcasterId = ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, Integer.parseInt(filters.get(0)));
+            statement.setString(1, filters.get(0));
             statement.setString(2, filters.get(1));
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){

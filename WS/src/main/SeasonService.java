@@ -20,7 +20,7 @@ public class SeasonService {
     // This method is called if XML is request
     @GET
     @Produces(MediaType.TEXT_XML)
-    public String getSerieXml(@QueryParam("serieId") String serieId, @QueryParam("seasonNumber") String seasonNumber) {
+    public String getSeasonXml(@QueryParam("serieId") String serieId, @QueryParam("seasonNumber") String seasonNumber) {
         Serializer serializer = new Persister();
         StringWriter writer = new StringWriter();
         try {
@@ -29,6 +29,7 @@ public class SeasonService {
           seasonDAO.releaseConnection();
           System.out.println(season.getId());
           //Season season = SeasonMock.mockSeasons().get(Integer.parseInt(serieId));
+          seasonDAO.releaseConnection();
           serializer.write(season, writer);
           System.out.println(writer.getBuffer());
         } catch (Exception e) {

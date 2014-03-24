@@ -9,7 +9,6 @@ import model.Serie;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -76,7 +75,6 @@ public class MainMenuActivity extends Activity {
                 }else if (!parentView.getSelectedItem().equals("Pick a serie")){
                     Intent intent = new Intent(MainMenuActivity.this, SerieDetailsActivity.class);
                     System.out.println("Main Activity " + parentView.getSelectedItemId());
-                    Log.d("WTF1", String.valueOf(parentView.getSelectedItem()));
                     intent.putExtra(KEY_SERIE, seriesMap.get(String.valueOf(parentView.getSelectedItem())));
                     MainMenuActivity.this.startActivity(intent);
                 }

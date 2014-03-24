@@ -45,7 +45,7 @@ public class TVDBEpisodeParser{
                     if (!date.isEmpty()){
                         episode.setOriginalAirDate(new SimpleDateFormat("yyyy-MM-dd").parse(date));
                     }
-                    
+
                     episode.setEpisodeNumber(Integer.parseInt(element.getElementsByTagName("EpisodeNumber").item(0).getTextContent()));
                     episode.setSeasonNumber(Integer.parseInt(element.getElementsByTagName("SeasonNumber").item(0).getTextContent()));
                     if (episode.getSeasonNumber() == 0){

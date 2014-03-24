@@ -22,7 +22,8 @@ public class SeriesListService {
       @GET
       @Produces(MediaType.TEXT_XML)
       public String getSerieListXml() {
-          List<Serie> series = new SerieDAO().findAll(null);
+          SerieDAO serieDAO = new SerieDAO();
+          List<Serie> series = serieDAO.findAll(null);
           Serializer serializer = new Persister();
           StringWriter writer = new StringWriter();
           SerieList serieList = new SerieList();
@@ -31,6 +32,7 @@ public class SeriesListService {
                 serieList.addSerieName(serie.getName());
                 serieList.addSerieId(serie.getId());
             }
+            serieDAO.releaseConnection();
             serializer.write(serieList, writer);
             System.out.println(writer.getBuffer());
           } catch (Exception e) {

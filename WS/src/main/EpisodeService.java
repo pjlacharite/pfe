@@ -22,7 +22,7 @@ public class EpisodeService {
     // This method is called if XML is request
     @GET
     @Produces(MediaType.TEXT_XML)
-    public String getSerieXml(@QueryParam("serieId") String serieId, @QueryParam("seasonNumber") String seasonNumber, @QueryParam("episodeNumber") String episodeNumber) {
+    public String getEpisodeXml(@QueryParam("serieId") String serieId, @QueryParam("seasonNumber") String seasonNumber, @QueryParam("episodeNumber") String episodeNumber) {
         Serializer serializer = new Persister();
         StringWriter writer = new StringWriter();
         try {
@@ -30,6 +30,7 @@ public class EpisodeService {
           List<String> parameters = Arrays.asList(serieId, seasonNumber, episodeNumber);
           Episode episode = episodeDAO.findAll(parameters).get(0);
           //Episode episode = EpisodeMock.mockEpisodes().get(Integer.parseInt(serieId));
+          episodeDAO.releaseConnection();
           serializer.write(episode, writer);
           System.out.println(writer.getBuffer());
         } catch (Exception e) {

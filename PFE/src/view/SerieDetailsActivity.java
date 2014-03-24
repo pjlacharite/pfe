@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import model.Broadcaster;
 import model.Season;
 import model.Serie;
 import android.app.Activity;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 
 import com.example.pfe.R;
 
+import controller.BroadcasterController;
 import controller.ControllerDispatcher;
 import controller.SeasonController;
 import controller.SerieController;
@@ -33,13 +35,14 @@ public class SerieDetailsActivity extends Activity {
     private static final String KEY_SERIE = "serie";
     private static final String KEY_SEASON = "season";
     private static final String KEY_EPISODE = "episode";
+    private static final String KEY_BROADCASTER = "broadcaster";
     private static final String CONTROLLER_SERIE = "SerieController";
     private static final String CONTROLLER_SEASON = "SeasonController";
-    private static final int TV = 1;
-    private static final int STREAM = 2;
+    private static final String CONTROLLER_BROADCASTER = "BroadcasterController";
     private String serieId;
     private Serie currentSerie;
     private Season currentSeason;
+    private Map<String, String> broadcasterMap = new HashMap<String, String>();
     private Map<String, String> seasonMap = new HashMap<String, String>();
     private Map<String, String> episodeMap = new HashMap<String, String>();
 
@@ -134,8 +137,8 @@ public class SerieDetailsActivity extends Activity {
                 }else if (!parentView.getSelectedItem().equals("Pick an Episode")){
                     Intent intent = new Intent(SerieDetailsActivity.this, EpisodeDetailsActivity.class);
                     System.out.println("Detail Activity " + parentView.getSelectedItemId());
-                    intent.putExtra(KEY_EPISODE, episodeMap.get(parentView.getSelectedItem()));
-                    intent.putExtra(KEY_SEASON, currentSeason.getId());
+                    intent.putExtra(KEY_EPISODE, parentView.getSelectedItemId()+1);
+                    intent.putExtra(KEY_SEASON, currentSeason.getSeasonNumber());
                     intent.putExtra(KEY_SERIE, serieId);
                     SerieDetailsActivity.this.startActivity(intent);
                 }
@@ -151,8 +154,14 @@ public class SerieDetailsActivity extends Activity {
 
     public void setupSupportsSpinner(){
         Spinner broadcastSupportSpinner = (Spinner)findViewById(R.id.broadcastSupportSpinner);
+        BroadcasterController broadcasterController = (BroadcasterController)ControllerDispatcher.getDispatcher().getController(CONTROLLER_BROADCASTER);
+        List<Broadcaster> broadcasters = broadcasterController.fetchBroadcasters();
         List<String> broadcastSupportsList = new ArrayList<String>();
         broadcastSupportsList.add("Pick a Broadcasting Support");
+        for (Broadcaster broadcaster: broadcasters){
+            broadcasterMap.put(broadcaster.getName(), broadcaster.getId());
+            broadcastSupportsList.add(broadcaster.getName());
+        }
         broadcastSupportsList.add("Television");
         broadcastSupportsList.add("Web Streaming");
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, broadcastSupportsList);
@@ -168,16 +177,12 @@ public class SerieDetailsActivity extends Activity {
                     firstPass = false;
                     return;
                 }else if (!parentView.getSelectedItem().equals("Pick a Broadcasting Support")){
-                    if (parentView.getSelectedItemPosition() == TV){
-                        Intent intent = new Intent(SerieDetailsActivity.this, ScheduleActivity.class);
-                        System.out.println("Detail Activity " + parentView.getSelectedItemId());
-                        intent.putExtra(KEY_SERIE, parentView.getSelectedItemId());
-                        SerieDetailsActivity.this.startActivity(intent);
-                    }else if (parentView.getSelectedItemPosition() == STREAM){
-                        TextView resultTextView = (TextView)findViewById(R.id.broadcastSupportDetail);
-                        resultTextView.setText("Netflix\nHBO");
-                        resultTextView.setVisibility(View.VISIBLE);
-                    }
+                    Intent intent = new Intent(SerieDetailsActivity.this, ScheduleActivity.class);
+                    System.out.println(String.valueOf("1 " + parentView.getSelectedItem()));
+                    System.out.println(String.valueOf("2 " + broadcasterMap.get(String.valueOf(parentView.getSelectedItem()))));
+                    intent.putExtra(KEY_BROADCASTER, broadcasterMap.get(String.valueOf(parentView.getSelectedItem())));
+                    intent.putExtra(KEY_SERIE, currentSerie.getId());
+                    SerieDetailsActivity.this.startActivity(intent);
                 }
             }
 

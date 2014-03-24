@@ -17,7 +17,7 @@ public class EpisodeDAO extends AbstractDAO<Episode> {
     @Override
     public Episode create(Episode object) { 
         try{
-            String sql = "INSERT INTO Episode (episodeId, serieId, serieId, seasonNumber, episodeName, episodeDescription, originalAirDate, originalViewers) values (?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Episode (episodeId, serieId, episodeNumber, seasonNumber, episodeName, episodeDescription, originalAirDate, originalViewers) values (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, object.getId());
             statement.setString(2, object.getSerieId());

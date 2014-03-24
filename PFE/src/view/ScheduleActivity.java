@@ -16,15 +16,18 @@ import com.example.pfe.R;
 public class ScheduleActivity extends Activity {
 
     private static final String KEY_SERIE = "serie";
+    private static final String KEY_BROADCASTER = "broadcaster";
     private String serieId;
-    
+    private String broadcasterId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
         serieId = String.valueOf(getIntent().getExtras().get(KEY_SERIE));
+        broadcasterId = String.valueOf(getIntent().getExtras().get(KEY_BROADCASTER));
         System.out.println("Schedule " + serieId);
-        
+        System.out.println("Schedule " + broadcasterId);
         TableLayout scheduleTableLayout = (TableLayout) findViewById(R.id.scheduleTableLayout);
         TableRow tableRow = new TableRow(this);
         TextView scheduleSlot = new TextView(this);

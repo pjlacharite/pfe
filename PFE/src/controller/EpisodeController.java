@@ -18,6 +18,9 @@ public class EpisodeController implements Controller{
     public Episode fetchEpisode(String serieId, String seasonNumber, String episodeNumber){
         lastFetchedEpisode = null;
         new FetchEpisode().execute(serieId, seasonNumber, episodeNumber);
+        while(lastFetchedEpisode == null){
+            //Waiting for WS call to finish;
+        }
         return lastFetchedEpisode;
     }
 

@@ -63,10 +63,6 @@ public class ModelManager {
         System.out.println("Processing scheduleSlots into database");
         for (ScheduleSlot scheduleSlot: scheduleSlots){
             scheduleSlotDAO.create(scheduleSlot);
-            Broadcaster broadcaster = new Broadcaster();
-            broadcaster.setId(scheduleSlot.getBroadcasterId());
-            broadcaster.setName(scheduleSlot.getSource());
-            broadcasters.add(broadcaster);
         }
         try {
             serieDAO.releaseConnection();
