@@ -1,6 +1,7 @@
 package view;
 
 import model.Schedule;
+import model.ScheduleSlot;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TableLayout;
@@ -31,18 +32,30 @@ public class ScheduleActivity extends Activity {
         setContentView(R.layout.activity_schedule);
         serieId = String.valueOf(getIntent().getExtras().get(KEY_SERIE));
         broadcasterId = String.valueOf(getIntent().getExtras().get(KEY_BROADCASTER));
-        System.out.println("Schedule " + serieId);
-        System.out.println("Schedule " + broadcasterId);
         ControllerDispatcher dispatcher = ControllerDispatcher.getDispatcher();
         ScheduleController scheduleController = (ScheduleController)dispatcher.getController(CONTROLLER_SCHEDULE);
         Schedule schedule = scheduleController.fetchSchedule(serieId, broadcasterId);
-        System.out.println("SCHEDULE SIZE: " + schedule.getScheduleSlots().size());
         TableLayout scheduleTableLayout = (TableLayout) findViewById(R.id.scheduleTableLayout);
-        TableRow tableRow = new TableRow(this);
-        TextView scheduleSlot = new TextView(this);
-        scheduleSlot.setText("18h - How I Met Your Mother");
-        tableRow.addView(scheduleSlot);
-        scheduleTableLayout.addView(tableRow);
+        TextView scheduleTitle = (TextView)findViewById(R.id.scheduleTitle);
+        if (schedule.getScheduleSlots().size() > 0){
+            scheduleTitle.setText(schedule.getScheduleSlots().get(0).getTitle());
+        }else{
+            scheduleTitle.setText("No upcoming broadcast");
+        }
+        for (int i = 0; i < schedule.getScheduleSlots().size(); i++){
+            ScheduleSlot scheduleSlot = schedule.getScheduleSlots().get(i);
+            TableRow tableRow = new TableRow(this);
+            TextView scheduleTextView = new TextView(this);
+            String scheduleSlotText = fixDate(scheduleSlot.getAiringTime()) + " - " + scheduleSlot.getEpisodeTitle();
+            scheduleTextView.setText(scheduleSlotText);
+            tableRow.addView(scheduleTextView);
+            scheduleTableLayout.addView(tableRow);
+        }
+    }
+
+    private String fixDate(String date){
+        return date.substring(0, 10) + " - " + date.substring(11, 19);
+        
     }
 
 }

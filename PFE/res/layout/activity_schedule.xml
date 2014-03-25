@@ -15,32 +15,11 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:text="Schedule"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <Button
-        android:id="@+id/previousDayButton"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+    <TableLayout
+        android:id="@+id/scheduleTableLayout"
         android:layout_below="@+id/scheduleTitle"
-        android:layout_marginRight="16dp"
-        android:text="Previous Day" />
-
-    <Button
-        android:id="@+id/nextDayButton"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/scheduleTitle"
-        android:text="Next Day" />
-
-	<TableLayout
-	    android:id="@+id/scheduleTableLayout"
-	    android:layout_below="@+id/nextDayButton"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content" >
-	    
-	</TableLayout>
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+    </TableLayout>
 </RelativeLayout>

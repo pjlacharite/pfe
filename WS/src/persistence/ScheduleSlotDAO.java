@@ -16,7 +16,7 @@ public class ScheduleSlotDAO extends AbstractDAO<ScheduleSlot>{
     @Override
     public ScheduleSlot create(ScheduleSlot object) {
         try{
-            String sql = "INSERT INTO ScheduleSlot (serieId, broadcasterId, duration, title, airingTime, source) values (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO ScheduleSlot (serieId, broadcasterId, duration, title, airingTime, source, episodeTitle) values (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, object.getSerieId());
             statement.setString(2, object.getBroadcasterId());
@@ -24,6 +24,7 @@ public class ScheduleSlotDAO extends AbstractDAO<ScheduleSlot>{
             statement.setString(4, object.getTitle());
             statement.setString(5, object.getAiringTime());
             statement.setString(6, object.getSource());
+            statement.setString(7, object.getEpisodeTitle());
             statement.executeUpdate();
         }catch (SQLException e){
             System.out.println(e.getLocalizedMessage());
@@ -48,6 +49,7 @@ public class ScheduleSlotDAO extends AbstractDAO<ScheduleSlot>{
                 scheduleSlot.setTitle(resultSet.getString(4));
                 scheduleSlot.setAiringTime(resultSet.getString(5));
                 scheduleSlot.setSource(resultSet.getString(6));
+                scheduleSlot.setEpisodeTitle(resultSet.getString(7));
             }
         }catch (SQLException e){
             System.out.println(e.getLocalizedMessage());
@@ -72,6 +74,7 @@ public class ScheduleSlotDAO extends AbstractDAO<ScheduleSlot>{
                 scheduleSlot.setTitle(resultSet.getString(4));
                 scheduleSlot.setAiringTime(resultSet.getString(5));
                 scheduleSlot.setSource(resultSet.getString(6));
+                scheduleSlot.setEpisodeTitle(resultSet.getString(7));
                 scheduleSlots.add(scheduleSlot);
             }
         }catch (SQLException e){

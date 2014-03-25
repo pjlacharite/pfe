@@ -13,7 +13,6 @@ import fetchers.Fetcher;
 import fetchers.FetcherFactory;
 import persistence.DatabaseUtils;
 
-
 public class DatabaseInitializationServlet implements ServletContextListener {
 
     public static Connection connection;
@@ -77,7 +76,8 @@ public class DatabaseInitializationServlet implements ServletContextListener {
                     + "duration varchar(255),"
                     + "title varchar(255),"
                     + "airingTime varchar(255),"
-                    + "source varchar(255))";
+                    + "source varchar(255),"
+                    + "episodeTitle varchar(255))";
             statement.executeUpdate(sql);
             sql = "DROP TABLE IF EXISTS Broadcaster";
             statement.executeUpdate(sql);

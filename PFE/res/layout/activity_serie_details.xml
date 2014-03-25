@@ -1,77 +1,92 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".SerieDetailsActivity" >
-
-    <Spinner
-        android:id="@+id/seasonSpinner"
-        android:layout_width="wrap_content"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical" >
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/seriesDetailTitle"
-        android:layout_marginTop="75dp" />
-
-    <TextView
-        android:id="@+id/seriesDetailTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="22dp"
-        android:text="Series Detail Title"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/seriesDetailDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/seasonSpinner"
-        android:layout_below="@+id/seriesDetailTitle"
-        android:layout_marginTop="15dp"
-        android:text="Series Detail Description" />
-
-    <Spinner
-        android:id="@+id/episodeSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/seasonSpinner"
-        android:layout_below="@+id/seasonSpinner"
-        android:layout_marginTop="36dp" />
-
-    <TextView
-        android:id="@+id/broadcaster"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/seasonSpinner"
-        android:layout_below="@+id/episodeSpinner"
-        android:text="Broadcaster" />
-
-    <Spinner
-        android:id="@+id/broadcastSupportSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/seasonSpinner"
-        android:layout_below="@+id/broadcaster" />
-
-    <TextView
-        android:id="@+id/broadcastSupportDetail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/seasonSpinner"
-        android:layout_below="@+id/broadcastSupportSpinner"
-        android:text="Results" />
-
-    <TextView
-        android:id="@+id/releaseDateTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/seasonSpinner"
-        android:layout_below="@+id/seasonSpinner"
-        android:text="TextView" />
-
-</RelativeLayout>
+        android:orientation="vertical" >
+        <TableRow 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:weightSum="10">
+            <TextView
+                android:id="@+id/seriesDetailTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+        </TableRow>
+        <TableRow 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:weightSum="10">
+            <TextView
+                android:id="@+id/seriesDetailDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </TableRow>
+        <TableRow 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:weightSum="10">
+            <Spinner
+                android:id="@+id/seasonSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </TableRow>
+        <TableRow 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:weightSum="10">
+            <Spinner
+                android:id="@+id/episodeSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </TableRow>
+        <TableRow 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:weightSum="10">
+            <TextView
+                android:id="@+id/broadcaster"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </TableRow>
+        <TableRow 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:weightSum="10">
+            <Spinner
+                android:id="@+id/broadcastSupportSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </TableRow>
+        <TableRow 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:weightSum="10">
+            <TextView
+                android:id="@+id/broadcastSupportDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </TableRow>
+        <TableRow 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:weightSum="10">
+            <TextView
+                android:id="@+id/releaseDateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </TableRow>
+    </LinearLayout>
+</ScrollView>

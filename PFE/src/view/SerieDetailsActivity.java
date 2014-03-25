@@ -58,6 +58,8 @@ public class SerieDetailsActivity extends Activity {
         Spinner episodeSpinner = (Spinner)findViewById(R.id.episodeSpinner);
         episodeSpinner.setVisibility(View.INVISIBLE);
         TextView dvdReleaseTextView = (TextView)findViewById(R.id.releaseDateTextView);
+        TextView broadcasterTextView = (TextView)findViewById(R.id.broadcaster);
+        broadcasterTextView.setText("Broadcaster");
         dvdReleaseTextView.setVisibility(View.INVISIBLE);
         TextView broadcastSupportTextView = (TextView)findViewById(R.id.broadcastSupportDetail);
         broadcastSupportTextView.setVisibility(View.INVISIBLE);

@@ -25,27 +25,25 @@ public final class R {
         public static final int tv=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f080014;
-        public static final int broadcastSupportDetail=0x7f080012;
-        public static final int broadcastSupportSpinner=0x7f080011;
-        public static final int broadcaster=0x7f080010;
+        public static final int action_settings=0x7f080012;
+        public static final int broadcastSupportDetail=0x7f080010;
+        public static final int broadcastSupportSpinner=0x7f08000f;
+        public static final int broadcaster=0x7f08000e;
         public static final int episodeDetailDescription=0x7f080001;
         public static final int episodeDetailOriginalAirDate=0x7f080002;
         public static final int episodeDetailOriginalAirDateValue=0x7f080004;
         public static final int episodeDetailOriginalViewers=0x7f080003;
         public static final int episodeDetailOriginalViewersValue=0x7f080005;
         public static final int episodeDetailTitle=0x7f080000;
-        public static final int episodeSpinner=0x7f08000f;
+        public static final int episodeSpinner=0x7f08000d;
         public static final int mainImageView=0x7f080006;
         public static final int mainSeriesSpinner=0x7f080007;
-        public static final int nextDayButton=0x7f08000a;
-        public static final int previousDayButton=0x7f080009;
-        public static final int releaseDateTextView=0x7f080013;
-        public static final int scheduleTableLayout=0x7f08000b;
+        public static final int releaseDateTextView=0x7f080011;
+        public static final int scheduleTableLayout=0x7f080009;
         public static final int scheduleTitle=0x7f080008;
         public static final int seasonSpinner=0x7f08000c;
-        public static final int seriesDetailDescription=0x7f08000e;
-        public static final int seriesDetailTitle=0x7f08000d;
+        public static final int seriesDetailDescription=0x7f08000b;
+        public static final int seriesDetailTitle=0x7f08000a;
     }
     public static final class layout {
         public static final int activity_episode_details=0x7f030000;

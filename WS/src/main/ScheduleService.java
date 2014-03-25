@@ -21,6 +21,7 @@ import persistence.ScheduleSlotDAO;
 @Path("/scheduleservice")
 public class ScheduleService {
     // This method is called if XML is request
+    private static final int MAX_SCHEDULE_SLOTS = 10;
     @GET
     @Produces(MediaType.TEXT_XML)
     public String getScheduleXml(@QueryParam("serieId") String serieId, @QueryParam("broadcasterId") String broadcasterId) {
@@ -32,6 +33,9 @@ public class ScheduleService {
           parameters.add(broadcasterId);
           ScheduleSlotDAO scheduleSlotDAO = new ScheduleSlotDAO();
           List<ScheduleSlot> scheduleSlots = scheduleSlotDAO.findAll(parameters);
+          if (scheduleSlots.size() > 10){
+              scheduleSlots = scheduleSlots.subList(0, MAX_SCHEDULE_SLOTS);
+          }
           scheduleSlotDAO.releaseConnection();
           Schedule schedule = new Schedule();
           schedule.addScheduleSlots(scheduleSlots);

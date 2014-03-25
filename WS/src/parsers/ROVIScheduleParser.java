@@ -28,6 +28,9 @@ public class ROVIScheduleParser {
                 scheduleSlot.setTitle(((JSONObject)jsonArray.get(i)).get("Title").toString());
                 if (((JSONObject)jsonArray.get(i)).get("EpisodeTitle") != null)
                     scheduleSlot.setEpisodeTitle(((JSONObject)jsonArray.get(i)).get("EpisodeTitle").toString());
+                else{
+                    scheduleSlot.setEpisodeTitle(scheduleSlot.getTitle());
+                }
                 scheduleSlot.setSource(((JSONObject)jsonArray.get(i)).get("SourceDisplayName").toString());
                 scheduleSlots.add(scheduleSlot);
             }
