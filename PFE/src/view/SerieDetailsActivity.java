@@ -42,7 +42,7 @@ public class SerieDetailsActivity extends Activity {
     private String serieId;
     private Serie currentSerie;
     private Season currentSeason;
-    private Map<String, String> broadcasterMap = new HashMap<String, String>();
+    private List<String> broadcasterIds = new ArrayList<String>();
     private Map<String, String> seasonMap = new HashMap<String, String>();
     private Map<String, String> episodeMap = new HashMap<String, String>();
 
@@ -159,15 +159,12 @@ public class SerieDetailsActivity extends Activity {
         List<String> broadcastSupportsList = new ArrayList<String>();
         broadcastSupportsList.add("Pick a Broadcasting Support");
         for (Broadcaster broadcaster: broadcasters){
-            broadcasterMap.put(broadcaster.getName(), broadcaster.getId());
             broadcastSupportsList.add(broadcaster.getName());
+            broadcasterIds.add(broadcaster.getId());
         }
-        broadcastSupportsList.add("Television");
-        broadcastSupportsList.add("Web Streaming");
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, broadcastSupportsList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);;
         broadcastSupportSpinner.setAdapter(dataAdapter);
-        
         broadcastSupportSpinner.setOnItemSelectedListener(new OnItemSelectedListener(){
             private boolean firstPass = true;
             @Override
@@ -178,9 +175,7 @@ public class SerieDetailsActivity extends Activity {
                     return;
                 }else if (!parentView.getSelectedItem().equals("Pick a Broadcasting Support")){
                     Intent intent = new Intent(SerieDetailsActivity.this, ScheduleActivity.class);
-                    System.out.println(String.valueOf("1 " + parentView.getSelectedItem()));
-                    System.out.println(String.valueOf("2 " + broadcasterMap.get(String.valueOf(parentView.getSelectedItem()))));
-                    intent.putExtra(KEY_BROADCASTER, broadcasterMap.get(String.valueOf(parentView.getSelectedItem())));
+                    intent.putExtra(KEY_BROADCASTER, broadcasterIds.get((parentView.getSelectedItemPosition()-1)));
                     intent.putExtra(KEY_SERIE, currentSerie.getId());
                     SerieDetailsActivity.this.startActivity(intent);
                 }
